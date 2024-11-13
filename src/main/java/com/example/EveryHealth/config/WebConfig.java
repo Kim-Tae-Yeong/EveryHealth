@@ -1,4 +1,4 @@
-package com.example.EveryHealth.Config;
+package com.example.EveryHealth.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

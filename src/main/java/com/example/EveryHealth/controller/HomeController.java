@@ -1,4 +1,4 @@
-package com.example.EveryHealth.Controller;
+package com.example.EveryHealth.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeController {
     @GetMapping("/")
     public String index() {
-        String response = "Hello";
-        log.info(response);
-        return response;
+        return "";
     }
 }
