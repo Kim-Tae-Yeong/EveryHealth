@@ -15,6 +15,9 @@ public class UserEntity {
     @Column(length = 30, nullable = false)
     private Long id;
 
+    @Column(unique = true)
+    private String userEmail;
+
     @Column(length = 30)
     private String userName;
 
@@ -29,6 +32,7 @@ public class UserEntity {
 
     public static UserEntity toUserEntity(UserDTO userDTO) {
         UserEntity userEntity = new UserEntity();
+        userEntity.setUserEmail(userDTO.getUserEmail());
         userEntity.setUserName(userDTO.getUserName());
         userEntity.setNickname(userDTO.getNickname());
         userEntity.setPassword(userDTO.getPassword());
