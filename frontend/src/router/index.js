@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';  // Vue 3에서 사용
-import HomeView from '../components/HomeView.vue';  // 경로에 맞는 컴포넌트 파일을 import
+import SaveForm from "@/components/SaveForm.vue"; // SaveForm 컴포넌트 import
 
 const routes = [
   {
-    path: '/',
-    name: 'HomeView',
-    component: HomeView
+    path: "/user/save",       // 회원가입 폼 경로
+    name: "SaveForm",         // 라우터 이름
+    component: SaveForm      // 사용될 컴포넌트
   }
 ];
 
