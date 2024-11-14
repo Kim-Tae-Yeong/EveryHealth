@@ -12,9 +12,9 @@ public class UserController {
     private final UserService userService;
 
     // 회원가입
-    @PostMapping("register")
+    @PostMapping("save")
     public String register(@RequestBody UserDTO userDTO) {
         userService.save(userDTO);
-        return "register";
+        return "save";
     }
 }
