@@ -3,15 +3,18 @@
     <!-- 중앙에 로고 글씨 추가 -->
     <div class="header">
       <div class="logo">
-        <router-link to="/">My Logo</router-link>
+        <router-link to="/">EveryHealth</router-link>
       </div>
       <!-- 네비게이션을 로고 밑에 위치 -->
-      <nav>
-
-      </nav>
+      <nav></nav>
     </div>
 
-    <!-- 회원가입 버튼을 우측 상단에 위치 -->
+    <!-- 우측 상단 로그인 버튼 -->
+    <div class="login-button">
+      <router-link to="/user/login">로그인</router-link>
+    </div>
+
+    <!-- 우측 상단 회원가입 버튼 -->
     <div class="signup-button">
       <router-link to="/user/save">회원가입</router-link>
     </div>
@@ -51,6 +54,13 @@ nav {
 .logo {
   font-size: 24px;
   font-weight: bold;
+}
+
+/* 우측 상단 로그인 버튼 */
+.login-button {
+  position: absolute;
+  top: 10px;
+  right: 100px; /* 회원가입 버튼보다 왼쪽에 위치하도록 설정 */
 }
 
 /* 우측 상단 회원가입 버튼 */

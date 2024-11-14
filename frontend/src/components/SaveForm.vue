@@ -1,5 +1,5 @@
 <template>
-  <div class="user-form">
+  <div>
     <h2>회원가입</h2>
     <form @submit.prevent="submitForm">
       <div>

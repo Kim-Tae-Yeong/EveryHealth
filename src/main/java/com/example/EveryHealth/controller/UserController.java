@@ -3,6 +3,7 @@ package com.example.EveryHealth.controller;
 import com.example.EveryHealth.dto.UserDTO;
 import com.example.EveryHealth.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,13 +21,13 @@ public class UserController {
 
     // 로그인
     @PostMapping("login")
-    public String login(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
         // 로그인 성공하면 user 정보를, 실패하면 null을 가져옴
         UserDTO loginResult = userService.login(userDTO);
         if(loginResult != null) {
-            return "login success";
+            return ResponseEntity.ok().body(loginResult);
         } else {
-            return "login fail";
+            return ResponseEntity.status(401).body("login fail");
         }
     }
 }
