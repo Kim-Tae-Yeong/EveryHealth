@@ -2,11 +2,11 @@
   <div>
     <form @submit.prevent="submitLogin">
       <div>
-        <label for="userEmail">이메일</label>
+        <label for="email">이메일</label>
         <input
           type="email"
-          id="userEmail"
-          v-model="userForm.userEmail"
+          id="email"
+          v-model="userForm.email"
           required
           placeholder="이메일을 입력하세요"
         />
@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       userForm: {
-        userEmail: "",  // userName 대신 userEmail
+        email: "",  // name 대신 email
         password: "",
       },
     };
@@ -41,7 +41,7 @@ export default {
   methods: {
     submitLogin() {
       const loginData = {
-        userEmail: this.userForm.userEmail,  // userName -> userEmail
+        email: this.userForm.email,  // name -> email
         password: this.userForm.password
       };
 

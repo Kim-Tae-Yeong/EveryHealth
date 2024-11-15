@@ -23,10 +23,10 @@ public class UserService {
 
     public UserDTO login(UserDTO userDTO) {
         // 회원가입 때 입력한 email로 해당 user의 정보를 가져옴
-        Optional<UserEntity> byUserEmail = userRepository.findByUserEmail(userDTO.getUserEmail());
+        Optional<UserEntity> byEmail = userRepository.findByEmail(userDTO.getEmail());
         // 입력한 email의 user 정보가 있으면
-        if(byUserEmail.isPresent()) {
-            UserEntity userEntity = byUserEmail.get();
+        if(byEmail.isPresent()) {
+            UserEntity userEntity = byEmail.get();
             // 사용자가 입력한 password와 회원가입 때 입력한 password를 비교함
             if(userEntity.getPassword().equals(userDTO.getPassword())) {
                 // 같으면 해당 user 정보를 dto로 변환하여 return

@@ -8,18 +8,18 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "user")
+@Table(name = "users")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(length = 30, nullable = false)
-    private Long id;
+    private Long user_id;
 
     @Column(unique = true)
-    private String userEmail;
+    private String email;
 
     @Column(length = 30)
-    private String userName;
+    private String name;
 
     @Column(length = 30)
     private String nickname;
@@ -28,15 +28,15 @@ public class UserEntity {
     private String password;
 
     @Lob
-    private byte[] profileImage;
+    private byte[] profile_image;
 
     public static UserEntity toUserEntity(UserDTO userDTO) {
         UserEntity userEntity = new UserEntity();
-        userEntity.setUserEmail(userDTO.getUserEmail());
-        userEntity.setUserName(userDTO.getUserName());
+        userEntity.setEmail(userDTO.getEmail());
+        userEntity.setName(userDTO.getName());
         userEntity.setNickname(userDTO.getNickname());
         userEntity.setPassword(userDTO.getPassword());
-        userEntity.setProfileImage(userDTO.getProfileImage());
+        userEntity.setProfile_image(userDTO.getProfile_image());
         return userEntity;
     }
 }

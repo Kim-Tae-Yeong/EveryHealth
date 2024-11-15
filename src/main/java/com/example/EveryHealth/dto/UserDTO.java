@@ -11,21 +11,21 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class UserDTO {
-    private Long id;
-    private String userEmail;
-    private String userName;
+    private Long user_id;
+    private String email;
+    private String name;
     private String nickname;
     private String password;
-    private byte[] profileImage;
+    private byte[] profile_image;
 
     public static UserDTO toUserDTO(UserEntity userEntity) {
         UserDTO userDTO = new UserDTO();
-        userDTO.setId(userEntity.getId());
-        userDTO.setUserEmail(userEntity.getUserEmail());
-        userDTO.setUserName(userEntity.getUserName());
+        userDTO.setUser_id(userEntity.getUser_id());
+        userDTO.setEmail(userEntity.getEmail());
+        userDTO.setName(userEntity.getName());
         userDTO.setNickname(userEntity.getNickname());
-        userDTO.setPassword(userDTO.getPassword());
-        userDTO.setProfileImage(userDTO.getProfileImage());
+        userDTO.setPassword(userEntity.getPassword());
+        userDTO.setProfile_image(userEntity.getProfile_image());
         return userDTO;
     }
 }

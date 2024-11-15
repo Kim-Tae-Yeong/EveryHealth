@@ -3,8 +3,8 @@
     <h2>회원가입</h2>
     <form @submit.prevent="submitForm">
       <div>
-        <label for="userName">사용자 이름:</label>
-        <input type="text" id="userName" v-model="userForm.userName" required />
+        <label for="name">사용자 이름:</label>
+        <input type="text" id="name" v-model="userForm.name" required />
       </div>
 
       <div>
@@ -13,8 +13,8 @@
       </div>
 
       <div>
-        <label for="userEmail">이메일:</label>
-        <input type="email" id="userEmail" v-model="userForm.userEmail" required />
+        <label for="email">이메일:</label>
+        <input type="email" id="email" v-model="userForm.email" required />
       </div>
 
       <div>
@@ -32,9 +32,9 @@ export default {
   data() {
     return {
       userForm: {
-        userName: '',
+        name: '',
         nickname: '',
-        userEmail: '',
+        email: '',
         password: ''
       }
     };
@@ -43,9 +43,9 @@ export default {
     submitForm() {
       // JSON 형식으로 데이터를 보내기 위해 객체 생성
       const userData = {
-        userName: this.userForm.userName,
+        name: this.userForm.name,
         nickname: this.userForm.nickname,
-        userEmail: this.userForm.userEmail,
+        email: this.userForm.email,
         password: this.userForm.password
       };
 
