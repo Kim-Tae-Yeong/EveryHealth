@@ -49,6 +49,7 @@ export default {
         .then(response => {
           if (response.status === 200) {
             // 로그인 성공 시 처리
+            alert("로그인 성공!");  // 성공 시 alert 메시지 추가
             console.log('로그인 성공:', response.data);
             this.$router.push('/');  // 홈 페이지로 이동
           }

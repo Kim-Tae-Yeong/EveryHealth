@@ -32,7 +32,7 @@ public class UserService {
         if(byEmail.isPresent()) {
             UserEntity userEntity = byEmail.get();
             // 사용자가 입력한 password와 회원가입 때 입력한 password를 비교함
-            if(userEntity.getPassword().equals(userDTO.getPassword())) {
+            if(passwordEncoder.matches(userDTO.getPassword(), userEntity.getPassword())) {
                 // 같으면 해당 user 정보를 dto로 변환하여 return
                 return UserDTO.toUserDTO(userEntity);
             } else {
