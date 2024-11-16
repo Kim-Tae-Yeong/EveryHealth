@@ -4,6 +4,7 @@ import com.example.EveryHealth.dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 @Getter
@@ -24,18 +25,18 @@ public class UserEntity {
     @Column(length = 30)
     private String nickname;
 
-    @Column(length = 30)
+    @Column(length = 100)
     private String password;
 
     @Lob
     private byte[] profile_image;
 
-    public static UserEntity toUserEntity(UserDTO userDTO) {
+    public static UserEntity toUserEntity(UserDTO userDTO, String encryptedPassword) {
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(userDTO.getEmail());
         userEntity.setName(userDTO.getName());
         userEntity.setNickname(userDTO.getNickname());
-        userEntity.setPassword(userDTO.getPassword());
+        userEntity.setPassword(encryptedPassword);
         userEntity.setProfile_image(userDTO.getProfile_image());
         return userEntity;
     }
