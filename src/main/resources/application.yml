@@ -15,3 +15,7 @@ spring:
     open-in-view: false
   thymeleaf:
     cache: false
+
+jwt:
+  secret: c29vbmdzaWxfaGVhbHRoX2Fzc29jaWF0aW9u
+  expiration: 7200000 # 2시간
