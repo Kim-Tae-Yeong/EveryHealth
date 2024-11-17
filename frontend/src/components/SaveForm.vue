@@ -56,7 +56,11 @@ export default {
           this.$router.push('/'); // 홈으로 이동
         })
         .catch(error => {
-          console.error('회원가입 실패:', error);
+          if(error.response && error.response.status == 400) {
+            alert("이미 존재하는 이메일입니다.");
+          } else {
+            alert("회원가입 중 오류가 발생했습니다.");
+          }
         });
     }
   }

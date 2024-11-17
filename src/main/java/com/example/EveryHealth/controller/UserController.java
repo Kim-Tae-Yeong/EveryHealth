@@ -3,6 +3,7 @@ package com.example.EveryHealth.controller;
 import com.example.EveryHealth.dto.UserDTO;
 import com.example.EveryHealth.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +15,18 @@ public class UserController {
 
     // 회원가입
     @PostMapping("save")
-    public String register(@RequestBody UserDTO userDTO) {
-        userService.save(userDTO);
-        return "save";
+    public ResponseEntity<String> register(@RequestBody UserDTO userDTO) {
+        try {
+            // 회원가입 처리
+            userService.save(userDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body("회원가입 성공!");
+        } catch (IllegalArgumentException e) {
+            // 이메일 중복 시 400 Bad Request 상태 코드 반환
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            // 그 외 에러 처리
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원가입 실패");
+        }
     }
 
     // 로그인

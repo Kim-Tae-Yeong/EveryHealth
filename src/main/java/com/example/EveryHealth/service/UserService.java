@@ -18,6 +18,11 @@ public class UserService {
 
     // 회원가입 처리
     public void save(UserDTO userDTO) {
+        // 이메일 중복 확인
+        Optional<UserEntity> existUser = userRepository.findByEmail(userDTO.getEmail());
+        if(existUser.isPresent()) {
+            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+        }
         // repository의 메소드를 호출하려면 entity 객체를 넘겨줘야 함
         // 하지만 우리는 dto로 데이터를 전달하기 때문에 이를 entity 객체로 바꿔줘야 함
         String encryptedPassword = passwordEncoder.encode(userDTO.getPassword());
