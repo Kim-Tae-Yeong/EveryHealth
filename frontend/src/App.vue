@@ -9,14 +9,18 @@
       <nav></nav>
     </div>
 
-    <!-- 우측 상단 로그인 버튼 -->
-    <div class="login-button">
-      <router-link to="/user/login">로그인</router-link>
-    </div>
+    <!-- 로그인 상태에 따른 버튼 표시 -->
+    <div class="auth-buttons">
+      <!-- 로그인 버튼은 token이 없을 때만 보임 -->
+      <div v-if="!isLoggedIn">
+        <router-link to="/user/login" class="auth-button">로그인</router-link>
+        <router-link to="/user/save" class="auth-button">회원가입</router-link>
+      </div>
 
-    <!-- 우측 상단 회원가입 버튼 -->
-    <div class="signup-button">
-      <router-link to="/user/save">회원가입</router-link>
+      <!-- 로그아웃 버튼은 token이 있을 때만 보임 -->
+      <div v-if="isLoggedIn">
+        <button @click="logout" class="auth-button">로그아웃</button>
+      </div>
     </div>
 
     <!-- 라우터에 맞는 컴포넌트가 이곳에 렌더링됩니다 -->
@@ -26,7 +30,35 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  data() {
+    return {
+      isLoggedIn: false // 로그인 상태를 추적하는 변수
+    };
+  },
+  mounted() {
+    // 페이지 로드 시 토큰을 확인하고 로그인 상태를 설정
+    this.checkLoginStatus();
+  },
+  methods: {
+    // 로그인 상태 체크
+    checkLoginStatus() {
+      const token = localStorage.getItem('token');
+      this.isLoggedIn = token ? true : false; // token이 있으면 로그인된 상태
+    },
+    // 로그아웃 처리
+    logout() {
+      localStorage.removeItem('token'); // 토큰 제거
+      this.isLoggedIn = false; // 로그인 상태 변경
+      this.$router.push('/'); // 홈 화면으로 리다이렉트
+    }
+  },
+  watch: {
+    // route 변화 시 로그인 상태를 확인하는 부분
+    '$route' : function() {
+      this.checkLoginStatus(); // 라우트 변경 시 로그인 상태 확인
+    }
+  }
 };
 </script>
 
@@ -56,17 +88,35 @@ nav {
   font-weight: bold;
 }
 
-/* 우측 상단 로그인 버튼 */
-.login-button {
-  position: absolute;
-  top: 10px;
-  right: 100px; /* 회원가입 버튼보다 왼쪽에 위치하도록 설정 */
-}
-
-/* 우측 상단 회원가입 버튼 */
-.signup-button {
+/* 로그인/회원가입/로그아웃 버튼 우측 상단 배치 */
+.auth-buttons {
   position: absolute;
   top: 10px;
   right: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* 버튼 공통 스타일 */
+.auth-button {
+  margin-left: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none; /* router-link 스타일링을 위해 추가 */
+  transition: background-color 0.3s ease;
+}
+
+.auth-button:hover {
+  background-color: #45a049; /* 호버 시 색상 변경 */
+}
+
+.auth-button:active {
+  background-color: #3e8e41; /* 클릭 시 색상 변경 */
 }
 </style>
