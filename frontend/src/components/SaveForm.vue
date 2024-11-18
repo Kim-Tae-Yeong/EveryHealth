@@ -8,7 +8,7 @@
       </div>
 
       <div>
-        <label for="phoneNumber">전화번호(숫자만 입력하세요.):</label>
+        <label for="phoneNumber">전화번호(숫자만 입력):</label>
         <input type="text" id="phoneNumber" v-model="userForm.phoneNumber" required />
       </div>
 
@@ -23,7 +23,7 @@
       </div>
 
       <div>
-        <label for="password">비밀번호:</label>
+        <label for="password">비밀번호(8자리 이상):</label>
         <input type="password" id="password" v-model="userForm.password" required />
       </div>
 
@@ -46,7 +46,23 @@ export default {
     };
   },
   methods: {
+    validatePhoneNumber(phoneNumber) {
+        const phoneRegex = /^[0-9]+$/;
+        return phoneRegex.test(phoneNumber);
+    },
+    validatePassword(password) {
+        return password.length >= 8;
+    },
     submitForm() {
+      if (!this.validatePhoneNumber(this.userForm.phoneNumber)) {
+        alert("전화번호는 숫자만 입력 가능합니다.");
+        return;
+      }
+      if(!this.validatePassword(this.userForm.password)) {
+        alert("비밀번호는 최소 8자 이상이어야 합니다.");
+        return;
+      }
+
       // JSON 형식으로 데이터를 보내기 위해 객체 생성
       const userData = {
         email: this.userForm.email,
