@@ -3,7 +3,7 @@ import HomeForm from "@/components/HomeForm.vue";
 import SaveForm from "@/components/SaveForm.vue"; // SaveForm 컴포넌트 import
 import LoginForm from "@/components/LoginForm.vue"; // LoginForm 컴포넌트 import
 import MyPageForm from "@/components/MyPageForm.vue";
-import boardForm from "@/components/boardForm.vue";
+import BoardForm from "@/components/BoardForm.vue";
 
 const routes = [
   {
@@ -28,8 +28,8 @@ const routes = [
   },
   {
     path: "/board",
-    name: "boardForm",
-    component: boardForm
+    name: "BoardForm",
+    component: BoardForm
   }
 ];
 
