@@ -8,6 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
@@ -41,6 +45,22 @@ public class UserController {
             return ResponseEntity.ok().body("Bearer " + token);
         } else {
             return ResponseEntity.status(401).body("로그인 실패");
+        }
+    }
+
+    // 전화번호로 이메일 찾기
+    @PostMapping("find-email-by-phone-number")
+    public ResponseEntity<?> findEmailByPhoneNumber(@RequestBody UserDTO userDTO) {
+        List<UserDTO> findResults = userService.findEmailByPhoneNumber(userDTO);
+        if(!findResults.isEmpty()) {
+            List<String> emails = new ArrayList<>();
+            for (UserDTO findResult : findResults) {
+                String email = findResult.getEmail();
+                emails.add(email);
+            }
+            return ResponseEntity.ok().body(emails);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 전화번호로 가입된 이메일이 없습니다.");
         }
     }
 }

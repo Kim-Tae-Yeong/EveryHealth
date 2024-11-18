@@ -13,35 +13,36 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(length = 30, nullable = false)
-    private Long user_id;
+    @Column(name = "user_id", length = 30, nullable = false)
+    private Long userId;
 
-    @Column(unique = true, nullable = false)
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(length = 11, nullable = false)
-    private String phone_number;
+    @Column(name = "phone_number", length = 11, nullable = false)
+    private String phoneNumber;
 
-    @Column(length = 30, nullable = false)
+    @Column(name = "name", length = 30, nullable = false)
     private String name;
 
-    @Column(length = 30)
+    @Column(name = "nickname", length = 30)
     private String nickname;
 
-    @Column(length = 100, nullable = false)
+    @Column(name = "password", length = 100, nullable = false)
     private String password;
 
+    @Column(name = "profile_image")
     @Lob
-    private byte[] profile_image;
+    private byte[] profileImage;
 
     public static UserEntity toUserEntity(UserDTO userDTO, String encryptedPassword) {
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(userDTO.getEmail());
-        userEntity.setPhone_number(userDTO.getPhone_number());
+        userEntity.setPhoneNumber(userDTO.getPhoneNumber());
         userEntity.setName(userDTO.getName());
         userEntity.setNickname(userDTO.getNickname());
         userEntity.setPassword(encryptedPassword);
-        userEntity.setProfile_image(userDTO.getProfile_image());
+        userEntity.setProfileImage(userDTO.getProfileImage());
         return userEntity;
     }
 }

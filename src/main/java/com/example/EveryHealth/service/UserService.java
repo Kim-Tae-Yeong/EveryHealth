@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -49,5 +51,12 @@ public class UserService {
             // 즉 입력한 email로 회원가입을 하지 않았다면 null return
             return null;
         }
+    }
+
+    public List<UserDTO> findEmailByPhoneNumber(UserDTO userDTO) {
+        // 전화번호로 users 정보 조회
+        // 한 전화번호로 여러번 회원가입을 할 수 있으므로 list로 받음
+        List<UserEntity> userEntities = userRepository.findByPhoneNumber(userDTO.getPhoneNumber());
+        return userEntities.stream().map(UserDTO :: toUserDTO).collect(Collectors.toList());
     }
 }
