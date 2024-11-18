@@ -6,7 +6,10 @@
         <router-link to="/">EveryHealth</router-link>
       </div>
       <!-- 네비게이션을 로고 밑에 위치 -->
-      <nav></nav>
+      <nav>
+        <router-link to="/myPage" class="nav-link">마이페이지</router-link>
+        <router-link to="/board" class="nav-link">커뮤니티</router-link>
+      </nav>
     </div>
 
     <!-- 로그인 상태에 따른 버튼 표시 -->
@@ -80,6 +83,22 @@ export default {
 /* 네비게이션 스타일 */
 nav {
   margin-top: 10px;
+}
+
+/* 네비게이션 스타일 */
+nav {
+  margin-top: 10px;
+  display: flex;
+  gap: 20px; /* 링크 간 간격 설정 */
+}
+
+/* 네비게이션 링크 스타일 */
+.nav-link {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  padding: 5px 10px;
+  transition: color 0.3s;
 }
 
 /* 중앙 로고 스타일 */
