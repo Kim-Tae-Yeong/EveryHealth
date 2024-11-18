@@ -33,6 +33,7 @@ public class SecurityConfig {
                     corsConfiguration.addAllowedOrigin("http://localhost:8082"); // Vue 서버 주소
                     corsConfiguration.addAllowedMethod("*");  // 모든 HTTP 메서드 허용
                     corsConfiguration.addAllowedHeader("*");  // 모든 헤더 허용
+                    corsConfiguration.addExposedHeader("Authorization");
                     return corsConfiguration;
                 }));
 

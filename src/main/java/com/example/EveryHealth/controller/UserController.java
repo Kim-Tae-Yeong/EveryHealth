@@ -38,7 +38,7 @@ public class UserController {
         UserDTO loginResult = userService.login(userDTO);
         if(loginResult != null) {
             String token = jwtUtil.generateToken(loginResult.getEmail());
-            return ResponseEntity.ok().body("Bearer : " + token);
+            return ResponseEntity.ok().body("Bearer " + token);
         } else {
             return ResponseEntity.status(401).body("로그인 실패");
         }

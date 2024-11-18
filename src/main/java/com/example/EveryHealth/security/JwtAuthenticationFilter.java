@@ -7,6 +7,7 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -17,13 +18,10 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
+@RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-
-    public JwtAuthenticationFilter(JwtUtil jwtUtil) {
-        this.jwtUtil = jwtUtil;
-    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -32,10 +30,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 토큰 추출
         String token = extractToken(request);
 
-        if (token != null && jwtUtil.validateToken(token, extractUsername(token))) {
+        if (token != null && jwtUtil.validateToken(token, extractEmail(token))) {
             // 토큰이 유효하다면 UsernamePasswordAuthenticationToken 생성
             Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    extractUsername(token), null, null);
+                    extractEmail(token), null, null);
 
             // 인증 객체를 SecurityContext에 설정
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -51,8 +49,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return (header != null && header.startsWith("Bearer ")) ? header.substring(7) : null;
     }
 
-    // 토큰에서 사용자 이름 추출
-    private String extractUsername(String token) {
-        return jwtUtil.extractUsername(token);
+    // 토큰에서 사용자 이메일 추출
+    private String extractEmail(String token) {
+        return jwtUtil.extractEmail(token);
     }
 }
