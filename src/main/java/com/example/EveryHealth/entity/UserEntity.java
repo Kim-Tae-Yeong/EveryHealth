@@ -19,7 +19,7 @@ public class UserEntity {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(unique = true, length = 11, nullable = false)
+    @Column(length = 11, nullable = false)
     private String phone_number;
 
     @Column(length = 30, nullable = false)
