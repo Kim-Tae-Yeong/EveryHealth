@@ -16,16 +16,19 @@ public class UserEntity {
     @Column(length = 30, nullable = false)
     private Long user_id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(length = 30)
+    @Column(unique = true, length = 11, nullable = false)
+    private String phone_number;
+
+    @Column(length = 30, nullable = false)
     private String name;
 
     @Column(length = 30)
     private String nickname;
 
-    @Column(length = 100)
+    @Column(length = 100, nullable = false)
     private String password;
 
     @Lob
@@ -34,6 +37,7 @@ public class UserEntity {
     public static UserEntity toUserEntity(UserDTO userDTO, String encryptedPassword) {
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(userDTO.getEmail());
+        userEntity.setPhone_number(userDTO.getPhone_number());
         userEntity.setName(userDTO.getName());
         userEntity.setNickname(userDTO.getNickname());
         userEntity.setPassword(encryptedPassword);

@@ -13,6 +13,7 @@ import lombok.ToString;
 public class UserDTO {
     private Long user_id;
     private String email;
+    private String phone_number;
     private String name;
     private String nickname;
     private String password;
@@ -22,6 +23,7 @@ public class UserDTO {
         UserDTO userDTO = new UserDTO();
         userDTO.setUser_id(userEntity.getUser_id());
         userDTO.setEmail(userEntity.getEmail());
+        userDTO.setPhone_number(userEntity.getPhone_number());
         userDTO.setName(userEntity.getName());
         userDTO.setNickname(userEntity.getNickname());
         userDTO.setPassword(userEntity.getPassword());
