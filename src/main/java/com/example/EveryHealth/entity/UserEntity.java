@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -34,6 +36,9 @@ public class UserEntity {
     @Column(name = "profile_image")
     @Lob
     private byte[] profileImage;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<BodyEntity> bodies;
 
     public static UserEntity toUserEntity(UserDTO userDTO, String encryptedPassword) {
         UserEntity userEntity = new UserEntity();
