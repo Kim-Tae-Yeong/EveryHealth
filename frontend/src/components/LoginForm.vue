@@ -47,7 +47,7 @@ export default {
         if (token) {
           // token을 localStorage에 저장
           localStorage.setItem("token", token);
-          localStorage.setItem("user_id", userId);
+          localStorage.setItem("userId", userId);
 
           // 로그인 성공 후 홈 페이지로 리다이렉트
           this.$router.push("/");
