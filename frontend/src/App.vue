@@ -5,13 +5,6 @@
       <div class="logo">
         <router-link to="/" class="logo-text">EveryHealth</router-link>
       </div>
-      <!-- 네비게이션을 로고 밑에 위치 -->
-      <nav>
-        <!-- 동적으로 마이페이지 링크 생성 -->
-        <router-link v-bind:to="myPageLink" class="nav-link">마이페이지</router-link>
-        <router-link to="/board" class="nav-link">커뮤니티</router-link>
-      </nav>
-
     </div>
 
     <!-- 로그인 상태에 따른 버튼 표시 -->
@@ -25,7 +18,7 @@
       <!-- 로그아웃 버튼은 token이 있을 때만 보임 -->
       <div v-if="isLoggedIn">
         <nav>
-          <router-link to="/myPage" class="nav-link" style="margin-right: 20px;">Mypage</router-link>
+          <router-link v-bind:to="myPageLink" class="nav-link" style="margin-right: 20px;">Mypage</router-link>
           <router-link to="/board" class="nav-link" style="margin-right: 20px;">Community</router-link>
           <button @click="logout" class="auth-button">Log out</button>
         </nav>
