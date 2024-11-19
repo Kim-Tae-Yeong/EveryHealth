@@ -73,7 +73,7 @@ export default {
       };
 
       // 서버에 JSON 데이터 전송
-      this.$axios.post('/user/save', userData)
+      this.$axios.post('/users/save', userData)
         .then(response => {
           console.log('회원가입 성공:', response.data);
           this.$router.push('/'); // 홈으로 이동

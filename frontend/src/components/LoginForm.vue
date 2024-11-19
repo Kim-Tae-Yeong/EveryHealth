@@ -12,7 +12,7 @@
       </div>
       <button type="submit">로그인</button>
     </form>
-    <router-link to="/user/find-email-by-phone-number">이메일 찾기</router-link>
+    <router-link to="/users/emails/search">이메일 찾기</router-link>
   </div>
 </template>
 
@@ -27,7 +27,7 @@ export default {
   methods: {
     async login() {
       try {
-        const response = await this.$axios.post("/user/login", {
+        const response = await this.$axios.post("/users/login", {
           email: this.email,
           password: this.password
         });

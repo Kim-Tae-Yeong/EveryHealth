@@ -16,8 +16,8 @@
     <div class="auth-buttons">
       <!-- 로그인 버튼은 token이 없을 때만 보임 -->
       <div v-if="!isLoggedIn">
-        <router-link to="/user/login" class="auth-button">로그인</router-link>
-        <router-link to="/user/save" class="auth-button">회원가입</router-link>
+        <router-link to="/users/login" class="auth-button">로그인</router-link>
+        <router-link to="/users/save" class="auth-button">회원가입</router-link>
       </div>
 
       <!-- 로그아웃 버튼은 token이 있을 때만 보임 -->

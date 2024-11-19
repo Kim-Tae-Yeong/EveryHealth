@@ -10,7 +10,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
-      ddl-auto: update # 최초 프로젝트 시작시 create(스키마 create) -> 이후부터는 update로 변경하고 실행해야 이전 db 안 날아감
+      ddl-auto: create # 최초 프로젝트 시작시 create(스키마 create) -> 이후부터는 update로 변경하고 실행해야 이전 db 안 날아감
     show-sql: true
     open-in-view: false
   thymeleaf:

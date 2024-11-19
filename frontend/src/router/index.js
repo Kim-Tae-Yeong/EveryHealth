@@ -13,12 +13,12 @@ const routes = [
     component: HomeForm
   },
   {
-    path: "/user/save",       // 회원가입 폼 경로
+    path: "/users/save",       // 회원가입 폼 경로
     name: "SaveForm",         // 라우터 이름
     component: SaveForm      // 사용될 컴포넌트
   },
   {
-    path: "/user/login",
+    path: "/users/login",
     name: "LoginForm",
     component: LoginForm
   },
@@ -33,7 +33,7 @@ const routes = [
     component: BoardForm
   },
   {
-    path: "/user/find-email-by-phone-number",
+    path: "/users/emails/search",
     name: "FindEmailByPhoneNumberForm",
     component: FindEmailByPhoneNumberForm
   }

@@ -9,7 +9,6 @@
                     id="phoneNumber"
                     v-model="phoneNumber"
                     required
-                    placeholder="전화번호를 입력하세요"
                 />
             </div>
             <button type="submit">이메일 찾기</button>
@@ -36,13 +35,14 @@ export default {
             }
 
             // UserDTO 형식으로 요청 보내기
-            this.$axios.post('/user/find-email-by-phone-number', {
+            this.$axios.post('/users/emails/search', {
                 phoneNumber: this.phoneNumber
             })
             .then(response => {
                 // 성공적으로 이메일 목록을 반환받은 경우
                 if (Array.isArray(response.data)) {
                     alert("찾은 이메일: " + response.data.join(", "));
+                    this.$router.push("/users/login");
                 }
             })
             .catch(error => {

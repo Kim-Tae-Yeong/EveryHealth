@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
@@ -50,7 +50,7 @@ public class UserController {
     }
 
     // 전화번호로 이메일 찾기
-    @PostMapping("find-email-by-phone-number")
+    @PostMapping("emails/search")
     public ResponseEntity<?> findEmailByPhoneNumber(@RequestBody UserDTO userDTO) {
         List<UserDTO> findResults = userService.findEmailByPhoneNumber(userDTO);
         if(!findResults.isEmpty()) {
@@ -66,7 +66,7 @@ public class UserController {
     }
 
     // 비밀번호 변경
-    @PostMapping("change-password")
+    @PostMapping("password")
     public ResponseEntity<?> changePasswordByEmail(@RequestBody UserDTO userDTO) {
         try {
             userService.changePassword(userDTO);
