@@ -3,26 +3,26 @@
     <!-- 중앙에 로고 글씨 추가 -->
     <div class="header">
       <div class="logo">
-        <router-link to="/">EveryHealth</router-link>
+        <router-link to="/" class="logo-text">EveryHealth</router-link>
       </div>
       <!-- 네비게이션을 로고 밑에 위치 -->
-      <nav>
-        <router-link to="/myPage" class="nav-link">마이페이지</router-link>
-        <router-link to="/board" class="nav-link">커뮤니티</router-link>
-      </nav>
     </div>
 
     <!-- 로그인 상태에 따른 버튼 표시 -->
     <div class="auth-buttons">
       <!-- 로그인 버튼은 token이 없을 때만 보임 -->
       <div v-if="!isLoggedIn">
-        <router-link to="/users/login" class="auth-button">로그인</router-link>
-        <router-link to="/users/save" class="auth-button">회원가입</router-link>
+        <router-link to="/users/login" class="auth-button">Log in</router-link>
+        <router-link to="/users/save" class="auth-button">Register</router-link>
       </div>
 
       <!-- 로그아웃 버튼은 token이 있을 때만 보임 -->
       <div v-if="isLoggedIn">
-        <button @click="logout" class="auth-button">로그아웃</button>
+        <nav>
+          <router-link to="/myPage" class="nav-link" style="margin-right: 20px;">Mypage</router-link>
+          <router-link to="/board" class="nav-link" style="margin-right: 20px;">Community</router-link>
+          <button @click="logout" class="auth-button">Log out</button>
+        </nav>
       </div>
     </div>
 
@@ -66,8 +66,10 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:wght@400;700&display=swap');
+
 #app {
-  font-family: Arial, sans-serif;
+  font-family: "Newsreader", sans-serif;
   text-align: center;
   position: relative;
 }
@@ -103,15 +105,18 @@ nav {
 
 /* 중앙 로고 스타일 */
 .logo {
-  font-size: 24px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 32px;
   font-weight: bold;
 }
 
 /* 로그인/회원가입/로그아웃 버튼 우측 상단 배치 */
 .auth-buttons {
   position: absolute;
-  top: 10px;
-  right: 20px;
+  top: 20px;
+  right: 10px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -123,7 +128,7 @@ nav {
   padding: 10px 20px;
   font-size: 16px;
   color: white;
-  background-color: #4CAF50;
+  background-color: #426B1F;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -138,4 +143,15 @@ nav {
 .auth-button:active {
   background-color: #3e8e41; /* 클릭 시 색상 변경 */
 }
+
+.logo-text {
+  color: #426B1F; /* 원하는 색상으로 설정 (예: 파란색) */
+  text-decoration: none; /* 링크의 밑줄 제거 */
+  user-select: none; /* 텍스트 선택 비활성화 */
+}
+
+.logo-text:hover {
+  cursor: default; /* 마우스 커서를 기본으로 설정하여 클릭 방지 */
+}
+
 </style>
