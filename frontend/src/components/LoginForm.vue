@@ -12,6 +12,7 @@
       </div>
       <button type="submit">로그인</button>
     </form>
+    <router-link to="/user/find-email-by-phone-number">이메일 찾기</router-link>
   </div>
 </template>
 

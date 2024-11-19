@@ -4,6 +4,7 @@ import SaveForm from "@/components/SaveForm.vue"; // SaveForm 컴포넌트 impor
 import LoginForm from "@/components/LoginForm.vue"; // LoginForm 컴포넌트 import
 import MyPageForm from "@/components/MyPageForm.vue";
 import BoardForm from "@/components/BoardForm.vue";
+import FindEmailByPhoneNumberForm from "@/components/FindEmailByPhoneNumberForm.vue";
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: "/board",
     name: "BoardForm",
     component: BoardForm
+  },
+  {
+    path: "/user/find-email-by-phone-number",
+    name: "FindEmailByPhoneNumberForm",
+    component: FindEmailByPhoneNumberForm
   }
 ];
 
