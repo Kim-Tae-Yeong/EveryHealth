@@ -59,4 +59,21 @@ public class UserService {
         List<UserEntity> userEntities = userRepository.findByPhoneNumber(userDTO.getPhoneNumber());
         return userEntities.stream().map(UserDTO :: toUserDTO).collect(Collectors.toList());
     }
+
+    public void changePassword(UserDTO userDTO) {
+        // 해당 이메일로 가입된 user가 있는지 찾음
+        Optional<UserEntity> byEmail = userRepository.findByEmail(userDTO.getEmail());
+        if(byEmail.isPresent()) {
+            UserEntity userEntity = byEmail.get();
+
+            // 새 비밀번호 암호화
+            String encryptedPassword = passwordEncoder.encode(userDTO.getPassword());
+
+            // 사용자 비밀번호 변경
+            userEntity.setPassword(encryptedPassword);
+            userRepository.save(userEntity);
+        } else {
+            throw new IllegalArgumentException("해당 이메일로 가입된 사용자가 존재하지 않습니다.");
+        }
+    }
 }

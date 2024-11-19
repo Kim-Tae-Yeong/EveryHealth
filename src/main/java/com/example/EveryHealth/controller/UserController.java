@@ -4,6 +4,7 @@ import com.example.EveryHealth.dto.UserDTO;
 import com.example.EveryHealth.security.JwtUtil;
 import com.example.EveryHealth.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -61,6 +62,17 @@ public class UserController {
             return ResponseEntity.ok().body(emails);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 전화번호로 가입된 이메일이 없습니다.");
+        }
+    }
+
+    // 비밀번호 변경
+    @PostMapping("change-password")
+    public ResponseEntity<?> changePasswordByEmail(@RequestBody UserDTO userDTO) {
+        try {
+            userService.changePassword(userDTO);
+            return ResponseEntity.ok().body("비밀번호가 성공적으로 변경되었습니다.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 }
