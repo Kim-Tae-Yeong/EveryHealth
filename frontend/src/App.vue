@@ -7,7 +7,8 @@
       </div>
       <!-- 네비게이션을 로고 밑에 위치 -->
       <nav>
-        <router-link to="/myPage" class="nav-link">마이페이지</router-link>
+        <!-- 동적으로 마이페이지 링크 생성 -->
+        <router-link v-bind:to="myPageLink" class="nav-link">마이페이지</router-link>
         <router-link to="/board" class="nav-link">커뮤니티</router-link>
       </nav>
     </div>
@@ -43,6 +44,18 @@ export default {
     // 페이지 로드 시 토큰을 확인하고 로그인 상태를 설정
     this.checkLoginStatus();
   },
+  computed: {
+    // 마이페이지로 이동하는 동적 링크
+    myPageLink() {
+      const userId = localStorage.getItem('user_id');
+      const today = this.getTodayDate();
+      if (userId) {
+        // 동적 URL 반환
+        return `/myPage/${userId}/${today}`;
+      }
+      return '/'; // 로그인 안 된 상태일 경우 홈으로 돌아가도록 처리
+    }
+  },
   methods: {
     // 로그인 상태 체크
     checkLoginStatus() {
@@ -54,11 +67,19 @@ export default {
       localStorage.removeItem('token'); // 토큰 제거
       this.isLoggedIn = false; // 로그인 상태 변경
       this.$router.push('/'); // 홈 화면으로 리다이렉트
+    },
+    // 오늘 날짜를 "YYYY-MM-DD" 형식으로 반환
+    getTodayDate() {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = ("0" + (today.getMonth() + 1)).slice(-2); // 월 형식 맞추기
+      const day = ("0" + today.getDate()).slice(-2); // 일 형식 맞추기
+      return `${year}-${month}-${day}`;
     }
   },
   watch: {
     // route 변화 시 로그인 상태를 확인하는 부분
-    '$route' : function() {
+    '$route': function () {
       this.checkLoginStatus(); // 라우트 변경 시 로그인 상태 확인
     }
   }

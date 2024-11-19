@@ -33,10 +33,17 @@ export default {
           password: this.password
         });
 
-        const token = response.data.replace('Bearer ', '');  // "Bearer " 접두어 제거
+        const responseData = response.data;
+        let token = responseData.token || responseData;
+        const userId = responseData.userId;
+
+        if (token && token.startsWith("Bearer ")) {
+            token = token.replace('Bearer ', '');
+        }
         if (token) {
           // token을 localStorage에 저장
           localStorage.setItem("token", token);
+          localStorage.setItem("user_id", userId);
 
           // 로그인 성공 후 홈 페이지로 리다이렉트
           this.$router.push("/");

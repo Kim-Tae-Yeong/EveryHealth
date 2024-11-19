@@ -24,7 +24,7 @@ const routes = [
     component: LoginForm
   },
   {
-    path: "/myPage",
+    path: "/myPage/:user_id/:date",
     name: "MyPageForm",
     component: MyPageForm
   },

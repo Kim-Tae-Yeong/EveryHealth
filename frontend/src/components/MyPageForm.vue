@@ -1,7 +1,6 @@
 <template>
   <div>
     <h1>마이페이지</h1>
-    <p>{{ message }}</p>
   </div>
 </template>
 
@@ -10,34 +9,21 @@ export default {
   name: "MyPage",
   data() {
     return {
-      message: "",
+      userId: this.$route.params.user_id,
+      today: this.$route.params.today,
     };
   },
   created() {
-    const token = localStorage.getItem("token");
-    if (token) {
       this.$axios
-        .get("/myPage", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
+        .get("`/myPage/${this.userId}/${this.today}`")
         .then((response) => {
-          this.message = response.data; // 서버에서 받은 데이터
+          console.log(response);
         })
         .catch((error) => {
-          if (error.response && error.response.status === 401) {
-            alert("로그인이 필요합니다.");
-            this.$router.push("/user/login");
-          } else {
             console.error("페이지 로드 중 오류:", error);
           }
-        });
-    } else {
-      alert("로그인이 필요합니다.");
-      this.$router.push("/user/login");
-    }
-  },
+        );
+  }
 };
 </script>
 
