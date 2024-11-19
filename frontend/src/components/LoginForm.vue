@@ -13,6 +13,7 @@
       <button type="submit">로그인</button>
     </form>
     <router-link to="/users/emails/search">이메일 찾기</router-link>
+    <router-link to="/users/password">비밀번호 변경</router-link>
   </div>
 </template>
 

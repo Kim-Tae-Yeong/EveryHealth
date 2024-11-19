@@ -5,6 +5,7 @@ import LoginForm from "@/components/LoginForm.vue"; // LoginForm 컴포넌트 im
 import MyPageForm from "@/components/MyPageForm.vue";
 import BoardForm from "@/components/BoardForm.vue";
 import FindEmailByPhoneNumberForm from "@/components/FindEmailByPhoneNumberForm.vue";
+import ChangePasswordForm from "@/components/ChangePasswordForm.vue";
 
 const routes = [
   {
@@ -36,6 +37,11 @@ const routes = [
     path: "/users/emails/search",
     name: "FindEmailByPhoneNumberForm",
     component: FindEmailByPhoneNumberForm
+  },
+  {
+    path: "/users/password",
+    name: "ChangePasswordForm",
+    component: ChangePasswordForm
   }
 ];
 

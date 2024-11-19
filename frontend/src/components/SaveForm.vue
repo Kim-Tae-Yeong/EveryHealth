@@ -66,12 +66,11 @@ export default {
       // JSON 형식으로 데이터를 보내기 위해 객체 생성
       const userData = {
         email: this.userForm.email,
-        phone_number: this.userForm.phoneNumber,
+        phoneNumber: this.userForm.phoneNumber,
         name: this.userForm.name,
         nickname: this.userForm.nickname,
         password: this.userForm.password
       };
-
       // 서버에 JSON 데이터 전송
       this.$axios.post('/users/save', userData)
         .then(response => {
