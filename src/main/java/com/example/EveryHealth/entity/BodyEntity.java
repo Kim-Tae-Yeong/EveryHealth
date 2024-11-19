@@ -1,10 +1,14 @@
 package com.example.EveryHealth.entity;
 
+import com.example.EveryHealth.dto.BodyDTO;
+import com.example.EveryHealth.repository.UserRepository;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Entity
 @Getter
@@ -39,4 +43,21 @@ public class BodyEntity {
     // 체지방률
     @Column(name = "pbf")
     private Integer pbf;
+
+    public static BodyEntity toBodyEntity(BodyDTO bodyDTO, UserRepository userRepository) {
+        BodyEntity bodyEntity = new BodyEntity();
+        Long userId = bodyDTO.getUserId();
+        UserEntity userEntity = userRepository.findById(userId).get();
+
+        bodyEntity.setUser(userEntity);
+        bodyEntity.setDate(bodyDTO.getDate());
+        bodyEntity.setHeight(bodyDTO.getHeight());
+        bodyEntity.setWeight(bodyDTO.getWeight());
+        bodyEntity.setBmi(bodyDTO.getBmi());
+        bodyEntity.setSmm(bodyDTO.getSmm());
+        bodyEntity.setPbf(bodyDTO.getPbf());
+
+
+        return bodyEntity;
+    }
 }

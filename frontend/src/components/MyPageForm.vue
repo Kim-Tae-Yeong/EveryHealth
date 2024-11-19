@@ -15,12 +15,18 @@ export default {
   },
   created() {
       this.$axios
-        .get("`/myPage/${this.userId}/${this.today}`")
+        .get(`/myPage/${this.userId}/${this.today}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        })
         .then((response) => {
-          console.log(response);
+          console.log(response.data);
         })
         .catch((error) => {
-            console.error("페이지 로드 중 오류:", error);
+            if(error.response && error.response.status == 403) {
+                console.error("인증 오류:", error);
+            }
           }
         );
   }
