@@ -24,19 +24,19 @@ public class BodyEntity {
     private LocalDate date;
 
     @Column(name = "height")
-    private int height;
+    private Integer height;
 
     @Column(name = "weight")
-    private int weight;
+    private Integer weight;
 
     @Column(name = "bmi")
-    private int bmi;
+    private Integer bmi;
 
     // 골격근량
     @Column(name = "smm")
-    private int smm;
+    private Integer smm;
 
     // 체지방률
     @Column(name = "pbf")
-    private int pbf;
+    private Integer pbf;
 }
