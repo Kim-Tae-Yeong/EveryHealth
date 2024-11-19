@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,13 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/myPage")
 @RequiredArgsConstructor
 public class MyPageController {
-    @GetMapping
-    public ResponseEntity<String> getMyPage(Authentication authentication) {
-        if(authentication != null && authentication.isAuthenticated()) {
-            String email = authentication.getName();
-            return ResponseEntity.ok(email);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증되지 않은 사용자입니다.");
-        }
+    @GetMapping("/{userId}/{date}")
+    public ResponseEntity<String> getMyPage(@PathVariable Long userId, @PathVariable String date) {
+        return ResponseEntity.ok().body(userId + date);
     }
 }

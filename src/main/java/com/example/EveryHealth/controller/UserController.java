@@ -10,7 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -43,7 +45,11 @@ public class UserController {
         UserDTO loginResult = userService.login(userDTO);
         if(loginResult != null) {
             String token = jwtUtil.generateToken(loginResult.getEmail());
-            return ResponseEntity.ok().body("Bearer " + token);
+
+            Map<String, Object> respone = new HashMap<>();
+            respone.put("token", "Bearer " + token);
+            respone.put("userId", loginResult.getUserId());
+            return ResponseEntity.ok().body(respone);
         } else {
             return ResponseEntity.status(401).body("로그인 실패");
         }
