@@ -5,12 +5,6 @@
       <div class="logo">
         <router-link to="/" class="logo-text">EveryHealth</router-link>
       </div>
-      <!-- 네비게이션을 로고 밑에 위치 -->
-      <nav>
-        <!-- 동적으로 마이페이지 링크 생성 -->
-        <router-link v-bind:to="myPageLink" class="nav-link">마이페이지</router-link>
-        <router-link to="/board" class="nav-link">커뮤니티</router-link>
-      </nav>
 
     </div>
 
