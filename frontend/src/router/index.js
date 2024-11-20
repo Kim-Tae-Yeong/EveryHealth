@@ -6,6 +6,7 @@ import MyPageForm from "@/components/MyPageForm.vue";
 import BoardForm from "@/components/BoardForm.vue";
 import FindEmailByPhoneNumberForm from "@/components/FindEmailByPhoneNumberForm.vue";
 import ChangePasswordForm from "@/components/ChangePasswordForm.vue";
+import ProgramReference from "@/components/ProgramReference.vue";
 
 const routes = [
   {
@@ -42,6 +43,11 @@ const routes = [
     path: "/users/password",
     name: "ChangePasswordForm",
     component: ChangePasswordForm
+  },
+  {
+    path: "/ProgramReference",
+    name: "ProgramReference",
+    component: ProgramReference
   }
 ];
 
