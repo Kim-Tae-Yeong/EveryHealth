@@ -134,6 +134,7 @@ export default {
 
 .accept_bt:active {
   background-color: #3e8e41; /* 클릭 시 색상 변경 */
+  transform: scale(0.95);
 }
 
 .submit-button {
@@ -153,6 +154,7 @@ export default {
 
 .submit-button:active {
   background-color: #3e8e41; /* 클릭 시 색상 변경 */
+  transform: scale(0.95);
 }
 
 </style>

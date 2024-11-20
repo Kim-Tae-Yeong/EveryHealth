@@ -20,6 +20,11 @@
           </template>
         </VDatePicker>
       </div>
+      <div class="Mylog">
+        <!-- exersice log, body log, diet log와 save 버튼을 구현할 부분 -->
+
+        <button class="save-button">Save</button>
+      </div>
     </div>
   </div>
 </template>
@@ -99,7 +104,10 @@ h1 {
 
 /* Today 버튼 스타일 */
 .today-button {
-  background-color: #007bff; /* 버튼 배경색 (파란색) */
+  appearance: none; /* 기본 스타일 초기화 */
+  -webkit-appearance: none; /* Safari의 기본 스타일 초기화 */
+  -moz-appearance: none; /* Firefox의 기본 스타일 초기화 */
+  background-color: #426B1F; /* 버튼 배경색 (파란색) */
   color: #fff; /* 텍스트 색상 (흰색) */
   border: none; /* 기본 테두리 제거 */
   border-radius: 5px; /* 둥근 모서리 */
@@ -111,14 +119,37 @@ h1 {
   bottom: 20px; /* 캘린더 하단에서 위로 20px 이동 */
   left: 50%; /* 가로로 가운데 정렬 */
   transform: translateX(-50%); /* 가운데 정렬 */
+  z-index: 10;
 }
 
 .today-button:hover {
-  background-color: #0056b3; /* 호버 시 색상 변경 */
+  background-color: #71B636 !important; /* 호버 시 색상 변경 */
 }
 
 .today-button:active {
   transform: translateX(-50%) scale(0.95); /* 클릭 시 버튼 살짝 축소 */
+}
+
+.save-button {
+  background-color: #426B1F; /* 버튼 배경색 (파란색) */
+  color: #fff; /* 텍스트 색상 (흰색) */
+  border: none; /* 기본 테두리 제거 */
+  border-radius: 5px; /* 둥근 모서리 */
+  padding: 10px 20px; /* 버튼 크기 */
+  font-size: 1rem; /* 글씨 크기 */
+  cursor: pointer; /* 커서 모양 변경 */
+  transition: background-color 0.3s, transform 0.2s; /* 호버 및 클릭 시 애니메이션 */
+  position: absolute;
+  right: 100px;
+  bottom: 30px;
+}
+
+.save-button:hover {
+  background-color: #71B636 !important; /* 호버 시 색상 변경 */
+}
+
+.save-button:active {
+  transform: scale(0.95); /* 클릭 시 버튼 살짝 축소 */
 }
 
 .MyPageLogo {
@@ -145,7 +176,5 @@ h1 {
   align-items: flex-start; /* 상단 정렬 */
   padding: 20px;
 }
-
-/* 나머지 CSS 스타일은 그대로 유지 */
 
 </style>

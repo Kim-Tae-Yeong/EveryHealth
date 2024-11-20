@@ -10,8 +10,8 @@
     <!-- 로그인 상태에 따른 버튼 표시 -->
     <div class="auth-buttons">
       <div v-if="!isLoggedIn">
-        <router-link to="/users/login" class="auth-button" @click.prevent="handleLoginClick" style="margin-right: 20px;">Log in</router-link>
-        <router-link to="/users/save" class="auth-button" @click.prevent="handleRegisterClick">Register</router-link>
+        <button class="auth-button" @click.prevent="handleLoginClick" style="margin-right: 20px;">Log in</button>
+        <button class="auth-button" @click.prevent="handleRegisterClick">Register</button>
       </div>
 
       <div v-if="isLoggedIn">
@@ -185,7 +185,7 @@ nav {
   border-radius: 5px;
   cursor: pointer;
   text-decoration: none;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* transform 추가 */
 }
 
 .auth-button:hover {
@@ -194,6 +194,7 @@ nav {
 
 .auth-button:active {
   background-color: #3e8e41;
+  transform : scale(0.95);
 }
 
 .logo-text {
