@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/myPage")
 @RequiredArgsConstructor
@@ -16,8 +18,9 @@ public class MyPageController {
     private final BodyService bodyService;
 
     @GetMapping("/{userId}/{date}")
-    public ResponseEntity<String> getMyPage(@PathVariable Long userId, @PathVariable String date) {
-        return ResponseEntity.ok().body("마이페이지");
+    public ResponseEntity<BodyDTO> getMyPage(@PathVariable Long userId, @PathVariable String date) {
+        BodyDTO bodyInformation = bodyService.getBodyInformation(userId, date);
+        return ResponseEntity.ok().body(bodyInformation);
     }
 
     @PostMapping("/{userId}/{date}")

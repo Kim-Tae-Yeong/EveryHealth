@@ -9,8 +9,6 @@
         <VDatePicker
           ref="calendar"
           expanded
-          :rows="1"
-          :step="1"
           v-model="selectedDate"
           mode="date"
           @dayclick="handleDateSelect"
@@ -19,6 +17,14 @@
             <button class="today-button" @click="moveToday">Today</button>
           </template>
         </VDatePicker>
+      </div>
+      <div class="user-info">
+        <h2>Body Information</h2>
+        <p><strong>키:</strong> {{bodyData?.height || ''}} </p>
+        <p><strong>몸무게:</strong> {{bodyData?.weight || ''}} </p>
+        <p><strong>BMI:</strong> {{bodyData?.bmi || ''}} </p>
+        <p><strong>골격근량:</strong> {{bodyData?.smm || ''}} </p>
+        <p><strong>체지방률:</strong> {{bodyData?.pbf || ''}} </p>
       </div>
     </div>
   </div>
@@ -29,23 +35,37 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import 'v-calendar/dist/style.css';
+import axios from 'axios';
 
 const selectedDate = ref(new Date()); // 선택된 날짜
 const calendar = ref(null); // VDatePicker 참조
 const router = useRouter();
+const bodyData = ref(null);
+
+const userId = localStorage.getItem('userId');
+const token = localStorage.getItem('token');
+
+const navigateToDate = async (date) => {
+  const formattedDate = date.id; // 'id' 속성에서 날짜 추출
+  router.push(`/myPage/${userId}/${formattedDate}`)
+  if (formattedDate) {
+    try {
+        const response = await axios.get(`/myPage/${userId}/${formattedDate}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        bodyData.value = response.data;
+
+    } catch (error) {
+        console.error(error);
+    }
+  }
+};
 
 const handleDateSelect = (date) => {
   selectedDate.value = new Date(date.id); // id에서 날짜 추출하여 selectedDate 업데이트
   navigateToDate(date); // 날짜 URL로 이동
-};
-
-const userId = localStorage.getItem('userId');
-
-const navigateToDate = (date) => {
-  const formattedDate = date.id; // 'id' 속성에서 날짜 추출
-  if (formattedDate) {
-    router.push(`/myPage/${userId}/${formattedDate}`); // 선택된 날짜로 이동
-  }
 };
 
 // 오늘 날짜로 이동
@@ -111,6 +131,7 @@ h1 {
   bottom: 20px; /* 캘린더 하단에서 위로 20px 이동 */
   left: 50%; /* 가로로 가운데 정렬 */
   transform: translateX(-50%); /* 가운데 정렬 */
+  z-index: 10;
 }
 
 .today-button:hover {
@@ -144,6 +165,14 @@ h1 {
   justify-content: space-between; /* 캘린더와 다른 요소 사이 여백 */
   align-items: flex-start; /* 상단 정렬 */
   padding: 20px;
+}
+
+.user-info {
+  flex: 1; /* 나머지 공간을 차지 */
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f9f9f9;
 }
 
 /* 나머지 CSS 스타일은 그대로 유지 */
