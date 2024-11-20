@@ -62,7 +62,7 @@ export default {
   computed: {
     // 마이페이지로 이동하는 동적 링크
     myPageLink() {
-      const userId = localStorage.getItem('user_id');
+      const userId = localStorage.getItem('userId');
       const today = this.getTodayDate();
       return userId ? `/myPage/${userId}/${today}` : '/'; // 로그인 안 된 상태일 경우 홈으로 돌아가도록 처리
     }
