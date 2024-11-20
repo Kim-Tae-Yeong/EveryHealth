@@ -22,24 +22,8 @@
       </div>
     </div>
 
-    <div v-if="(isLoggedIn || (!isLoggedIn && !isLoginPage && !isNavigating)) && !activeLink" class="default-content">
-      <div class="image-container">
-        <img :src="require('@/assets/image1.jpg')" alt="Image 1" class="default-image" />
-        <img :src="require('@/assets/image2.jpg')" alt="Image 2" class="default-image" />
-      </div>
-      <p class="image-caption">
-        Welcome to EveryHealth!<br><br>
-        EveryHealth is your all-in-one health management app designed to seamlessly integrate your diet and exercise routines.<br>
-        With our intuitive platform, you can easily log your meals and workouts, track your progress, and receive personalized workout recommendations based on your unique fitness data.<br><br>
-        Connect with a community of fitness enthusiasts through our interactive bulletin board, where you can share your achievements, motivate each other, and celebrate your journeys together.<br>
-        Whether you're aiming to lose weight, build muscle, or maintain a healthy lifestyle, FitConnect is here to support you every step of the way.<br><br>
-        Join us in transforming your health and fitness experience!<br><br>
-        Feel free to modify any part to better fit your vision!
-      </p>  
-    </div>
-
     <!-- 라우터에 맞는 컴포넌트가 이곳에 렌더링됩니다 -->
-    <router-view @navigation-start="isNavigating = true" @navigation-end="isNavigating = false"></router-view>
+    <router-view class="router-view" @navigation-start="isNavigating = true" @navigation-end="isNavigating = false"></router-view>
   </div>
 </template>
 
@@ -62,7 +46,7 @@ export default {
   computed: {
     // 마이페이지로 이동하는 동적 링크
     myPageLink() {
-      const userId = localStorage.getItem('userId');
+      const userId = localStorage.getItem('user_id');
       const today = this.getTodayDate();
       return userId ? `/myPage/${userId}/${today}` : '/'; // 로그인 안 된 상태일 경우 홈으로 돌아가도록 처리
     }
@@ -76,14 +60,18 @@ export default {
       this.isLoginPage = this.$route.path === '/users/login' || this.$route.path === '/users/save';
     },
     handleLoginClick() {
-      this.isNavigating = true; // 페이지 전환 시작
       this.activeLink = true; // 활성화된 링크 설정
-      this.$router.push('/users/login'); // 페이지 전환
+      this.isNavigating = true; // 페이지 전환 시작
+      this.$router.push('/users/login').then(() => {
+        this.isNavigating = false; // 페이지 전환 완료 후 상태 초기화
+      });
     },
     handleRegisterClick() {
-      this.isNavigating = true; // 페이지 전환 시작
       this.activeLink = true; // 활성화된 링크 설정
-      this.$router.push('/users/save'); // 페이지 전환
+      this.isNavigating = true; // 페이지 전환 시작
+      this.$router.push('/users/save').then(() => {
+        this.isNavigating = false; // 페이지 전환 완료 후 상태 초기화
+      });
     },
     logout() {
       localStorage.removeItem('token'); // 토큰 제거
@@ -100,26 +88,31 @@ export default {
       return `${year}-${month}-${day}`;
     },
     handlePRClick() {
-      this.isNavigating = true; // 페이지 전환 시작
       this.activeLink = true; // 활성화된 링크 설정
-      this.$router.push('/ProgramReference'); // 페이지 전환
+      this.isNavigating = true; // 페이지 전환 시작
+      this.$router.push('/ProgramReference').then(() => {
+        this.isNavigating = true; // 페이지 전환 완료 후 상태 초기화
+      });
     },
     handleBoardClick() {
-      this.isNavigating = true; // 페이지 전환 시작
       this.activeLink = true; // 활성화된 링크 설정
-      this.$router.push('/board'); // 페이지 전환
+      this.isNavigating = true; // 페이지 전환 시작
+      this.$router.push('/board').then(() => {
+        this.isNavigating = false; // 페이지 전환 완료 후 상태 초기화
+      });
     },
     handleMypageClick() {
-      this.isNavigating = true; // 페이지 전환 시작
       this.activeLink = true; // 활성화된 링크 설정
-      this.$router.push(this.myPageLink); // 페이지 전환
+      this.isNavigating = true; // 페이지 전환 시작
+      this.$router.push(this.myPageLink).then(() => {
+        this.isNavigating = false; // 페이지 전환 완료 후 상태 초기화
+      });
     },
   },
   watch: {
     '$route': function () {
       this.checkLoginStatus(); // 라우트 변경 시 로그인 상태 확인
       this.checkIfLoginPage(); // 현재 페이지가 로그인 페이지인지 확인
-      this.activeLink = false; // 라우트 변경 시 활성화된 링크 초기화
     }
   }
 };
@@ -142,34 +135,6 @@ export default {
   margin-bottom: 20px;
 }
 
-.default-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  height: 100vh;
-  padding: 40px;
-}
-
-.image-container {
-  display: flex;
-  justify-content: center;
-  gap: 60px;
-  margin-top: 60px;
-}
-
-.default-image {
-  width: 500px;
-  height: auto;
-  border-radius: 10px;
-}
-
-.image-caption {
-  text-align: left;
-  font-size: 18px;
-  max-width: 600px;
-  margin: 60px 0 0;
-}
 
 /* 네비게이션 스타일 */
 nav {
@@ -186,17 +151,16 @@ nav {
   transition: color 0.3s;
 }
 
-/* 활성화된 링크 스타일 */
-.active-link {
-  font-weight: bold; /* 글씨체 굵게 설정 */
-}
-
 /* 중앙 로고 스타일 */
 .logo {
   position: absolute;
   top: 10px;
   left: 10px;
   font-size: 32px;
+  font-weight: bold;
+}
+
+.active-link {
   font-weight: bold;
 }
 
@@ -241,5 +205,9 @@ nav {
 
 .logo-text:hover {
   cursor: default;
+}
+
+.router-view {
+  margin-top: 70px;
 }
 </style>

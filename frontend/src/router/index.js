@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';  // Vue 3에서 사용
-import HomeForm from "@/components/HomeForm.vue";
+import mainPage from "@/components/mainPage.vue";
 import SaveForm from "@/components/SaveForm.vue"; // SaveForm 컴포넌트 import
 import LoginForm from "@/components/LoginForm.vue"; // LoginForm 컴포넌트 import
 import MyPageForm from "@/components/MyPageForm.vue";
@@ -11,8 +11,8 @@ import ProgramReference from "@/components/ProgramReference.vue";
 const routes = [
   {
     path: "/",
-    name: "HomeForm",
-    component: HomeForm
+    name: "mainPage",
+    component: mainPage
   },
   {
     path: "/users/save",       // 회원가입 폼 경로

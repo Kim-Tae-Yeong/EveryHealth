@@ -1,6 +1,9 @@
 <template>
   <div>
-    <h1>마이페이지</h1>
+    <div class="line-container">
+      <h1 class="MyPageLogo">My Page</h1>
+      <div class="horizontal-line"></div> <!-- 세로선 추가 -->
+    </div>
     <div class="mypage-container">
       <div class="calendar-container">
         <VDatePicker
@@ -20,6 +23,7 @@
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref } from 'vue';
@@ -56,16 +60,17 @@ const moveToday = () => {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:wght@400;700&display=swap');
+
+#app {
+  font-family: "Newsreader", sans-serif;
+  text-align: center;
+  position: relative;
+}
+
 h1 {
   margin-bottom: 16px; /* 제목과 캘린더 간 간격 */
   text-align: center; /* 텍스트 가운데 정렬 */
-}
-
-.mypage-container {
-  display: flex; /* 수평 레이아웃 */
-  justify-content: space-between; /* 캘린더와 다른 요소 사이 여백 */
-  align-items: flex-start; /* 상단 정렬 */
-  padding: 20px;
 }
 
 .calendar-container {
@@ -115,4 +120,32 @@ h1 {
 .today-button:active {
   transform: translateX(-50%) scale(0.95); /* 클릭 시 버튼 살짝 축소 */
 }
+
+.MyPageLogo {
+  color: #426B1F;
+  font-weight: normal;
+}
+
+.line-container {
+  display: flex;
+  flex-direction: column; /* 세로 방향으로 정렬 */
+  align-items: center; /* 가운데 정렬 */
+}
+
+.horizontal-line {
+  width: 90%; /* 가로선의 너비 */
+  height: 2px; /* 가로선의 두께 */
+  background-color: #426B1F; /* 가로선 색상 */
+  margin-top: 10px; /* h1과 가로선 사이의 간격 */
+}
+
+.mypage-container {
+  display: flex; /* 수평 레이아웃 */
+  justify-content: space-between; /* 캘린더와 다른 요소 사이 여백 */
+  align-items: flex-start; /* 상단 정렬 */
+  padding: 20px;
+}
+
+/* 나머지 CSS 스타일은 그대로 유지 */
+
 </style>
