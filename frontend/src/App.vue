@@ -1,29 +1,31 @@
 <template>
   <div id="app">
-    <!-- 중앙에 로고 글씨 추가 -->
     <div class="header">
       <div class="logo">
         <router-link to="/" class="logo-text">EveryHealth</router-link>
       </div>
     </div>
 
-    <!-- 로그인 상태에 따른 버튼 표시 -->
     <div class="auth-buttons">
       <div v-if="!isLoggedIn">
+<<<<<<< HEAD
         <button class="auth-button" @click.prevent="handleLoginClick" style="margin-right: 20px;">Log in</button>
         <button class="auth-button" @click.prevent="handleRegisterClick">Register</button>
+=======
+        <router-link to="/users/login" class="auth-button">Log in</router-link>
+        <router-link to="/users/save" class="auth-button">Register</router-link>
+>>>>>>> acfee0e76405f8d7c3d8ae8cb073ac9a9771b9e4
       </div>
 
       <div v-if="isLoggedIn">
-        <router-link to="/ProgramReference" class="nav-link" exact-active-class="active-link" @click.prevent="handlePRClick" style="margin-right: 20px;">Program Reference</router-link>
-        <router-link to="/board" class="nav-link" exact-active-class="active-link" @click.prevent="handleBoardClick" style="margin-right: 20px;">Community</router-link>
-        <router-link :to="myPageLink" class="nav-link" exact-active-class="active-link" @click.prevent="handleMypageClick" style="margin-right: 20px;">Mypage</router-link>
+        <router-link to="/ProgramReference" class="nav-link" exact-active-class="active-link">Program Reference</router-link>
+        <router-link to="/board" class="nav-link" exact-active-class="active-link">Community</router-link>
+        <router-link :to="myPageLink" class="nav-link" exact-active-class="active-link" @click.prevent="handleMypageClick">Mypage</router-link>
         <button @click="logout" class="auth-button">Log out</button>
       </div>
     </div>
 
-    <!-- 라우터에 맞는 컴포넌트가 이곳에 렌더링됩니다 -->
-    <router-view class="router-view" @navigation-start="isNavigating = true" @navigation-end="isNavigating = false"></router-view>
+    <router-view class="router-view"></router-view>
   </div>
 </template>
 
@@ -32,53 +34,30 @@ export default {
   name: 'App',
   data() {
     return {
-      isLoggedIn: false, // 로그인 상태를 추적하는 변수
-      isNavigating: false, // 현재 페이지 전환 상태를 추적하는 변수
-      isLoginPage: false, // 현재 페이지가 로그인 페이지인지 여부
-      activeLink: false // 활성화된 링크를 추적하는 변수
+      isLoggedIn: false,
+      isNavigating: false,
+      bodyData: null,
     };
   },
   mounted() {
-    // 페이지 로드 시 토큰을 확인하고 로그인 상태를 설정
     this.checkLoginStatus();
-    this.checkIfLoginPage();
   },
   computed: {
-    // 마이페이지로 이동하는 동적 링크
     myPageLink() {
       const userId = localStorage.getItem('user_id');
       const today = this.getTodayDate();
-      return userId ? `/myPage/${userId}/${today}` : '/'; // 로그인 안 된 상태일 경우 홈으로 돌아가도록 처리
+      return userId ? `/myPage/${userId}/${today}` : '/';
     }
   },
   methods: {
     checkLoginStatus() {
       const token = localStorage.getItem('token');
-      this.isLoggedIn = !!token; // token이 있으면 로그인된 상태
-    },
-    checkIfLoginPage() {
-      this.isLoginPage = this.$route.path === '/users/login' || this.$route.path === '/users/save';
-    },
-    handleLoginClick() {
-      this.activeLink = true; // 활성화된 링크 설정
-      this.isNavigating = true; // 페이지 전환 시작
-      this.$router.push('/users/login').then(() => {
-        this.isNavigating = false; // 페이지 전환 완료 후 상태 초기화
-      });
-    },
-    handleRegisterClick() {
-      this.activeLink = true; // 활성화된 링크 설정
-      this.isNavigating = true; // 페이지 전환 시작
-      this.$router.push('/users/save').then(() => {
-        this.isNavigating = false; // 페이지 전환 완료 후 상태 초기화
-      });
+      this.isLoggedIn = !!token;
     },
     logout() {
-      localStorage.removeItem('token'); // 토큰 제거
-      this.isLoggedIn = false; // 로그인 상태 변경
-      this.activeLink = false; // 활성화된 링크 초기화
-      this.isNavigating = false; // 기본 콘텐츠 숨김
-      this.$router.push('/'); // 홈 화면으로 리다이렉트
+      localStorage.removeItem('token');
+      this.isLoggedIn = false;
+      this.$router.push('/');
     },
     getTodayDate() {
       const today = new Date();
@@ -87,32 +66,33 @@ export default {
       const day = ("0" + today.getDate()).slice(-2);
       return `${year}-${month}-${day}`;
     },
-    handlePRClick() {
-      this.activeLink = true; // 활성화된 링크 설정
-      this.isNavigating = true; // 페이지 전환 시작
-      this.$router.push('/ProgramReference').then(() => {
-        this.isNavigating = true; // 페이지 전환 완료 후 상태 초기화
-      });
-    },
-    handleBoardClick() {
-      this.activeLink = true; // 활성화된 링크 설정
-      this.isNavigating = true; // 페이지 전환 시작
-      this.$router.push('/board').then(() => {
-        this.isNavigating = false; // 페이지 전환 완료 후 상태 초기화
+    async navigateToMyPage() {
+      const link = this.myPageLink;
+      const token = localStorage.getItem('token');
+      this.isNavigating = true;
+
+      // 페이지 전환이 완료될 때까지 기다리기 위해 then() 사용
+      this.$router.push(link).then(async () => {
+        try {
+          const response = await this.$axios.get(link, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          this.bodyData = response.data;
+        } catch (error) {
+          console.error(error);
+        } finally {
+          this.isNavigating = false;
+        }
       });
     },
     handleMypageClick() {
-      this.activeLink = true; // 활성화된 링크 설정
-      this.isNavigating = true; // 페이지 전환 시작
-      this.$router.push(this.myPageLink).then(() => {
-        this.isNavigating = false; // 페이지 전환 완료 후 상태 초기화
-      });
-    },
+      this.isNavigating = true;
+      this.navigateToMyPage();
+    }
   },
   watch: {
     '$route': function () {
-      this.checkLoginStatus(); // 라우트 변경 시 로그인 상태 확인
-      this.checkIfLoginPage(); // 현재 페이지가 로그인 페이지인지 확인
+      this.checkLoginStatus();
     }
   }
 };

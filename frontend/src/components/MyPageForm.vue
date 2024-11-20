@@ -9,8 +9,6 @@
         <VDatePicker
           ref="calendar"
           expanded
-          :rows="1"
-          :step="1"
           v-model="selectedDate"
           mode="date"
           @dayclick="handleDateSelect"
@@ -20,10 +18,20 @@
           </template>
         </VDatePicker>
       </div>
+<<<<<<< HEAD
       <div class="Mylog">
         <!-- exersice log, body log, diet log와 save 버튼을 구현할 부분 -->
 
         <button class="save-button">Save</button>
+=======
+      <div class="user-info">
+        <h2>Body Information</h2>
+        <p><strong>키:</strong> {{bodyData?.height || ''}} </p>
+        <p><strong>몸무게:</strong> {{bodyData?.weight || ''}} </p>
+        <p><strong>BMI:</strong> {{bodyData?.bmi || ''}} </p>
+        <p><strong>골격근량:</strong> {{bodyData?.smm || ''}} </p>
+        <p><strong>체지방률:</strong> {{bodyData?.pbf || ''}} </p>
+>>>>>>> acfee0e76405f8d7c3d8ae8cb073ac9a9771b9e4
       </div>
     </div>
   </div>
@@ -34,23 +42,37 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import 'v-calendar/dist/style.css';
+import axios from 'axios';
 
 const selectedDate = ref(new Date()); // 선택된 날짜
 const calendar = ref(null); // VDatePicker 참조
 const router = useRouter();
+const bodyData = ref(null);
+
+const userId = localStorage.getItem('userId');
+const token = localStorage.getItem('token');
+
+const navigateToDate = async (date) => {
+  const formattedDate = date.id; // 'id' 속성에서 날짜 추출
+  router.push(`/myPage/${userId}/${formattedDate}`)
+  if (formattedDate) {
+    try {
+        const response = await axios.get(`/myPage/${userId}/${formattedDate}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        bodyData.value = response.data;
+
+    } catch (error) {
+        console.error(error);
+    }
+  }
+};
 
 const handleDateSelect = (date) => {
   selectedDate.value = new Date(date.id); // id에서 날짜 추출하여 selectedDate 업데이트
   navigateToDate(date); // 날짜 URL로 이동
-};
-
-const userId = localStorage.getItem('userId');
-
-const navigateToDate = (date) => {
-  const formattedDate = date.id; // 'id' 속성에서 날짜 추출
-  if (formattedDate) {
-    router.push(`/myPage/${userId}/${formattedDate}`); // 선택된 날짜로 이동
-  }
 };
 
 // 오늘 날짜로 이동
@@ -177,4 +199,17 @@ h1 {
   padding: 20px;
 }
 
+<<<<<<< HEAD
+=======
+.user-info {
+  flex: 1; /* 나머지 공간을 차지 */
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+
+/* 나머지 CSS 스타일은 그대로 유지 */
+
+>>>>>>> acfee0e76405f8d7c3d8ae8cb073ac9a9771b9e4
 </style>
