@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @Setter
-@Table(name = "diet")
+@Table(name = "diets")
 public class DietEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +43,7 @@ public class DietEntity {
         dietEntity.setDate(dietDTO.getDate());
         dietEntity.setBreakfast(dietDTO.getBreakfast());
         dietEntity.setLunch(dietDTO.getLunch());
-        dietEntity.setDinner(dietDTO.getBreakfast());
+        dietEntity.setDinner(dietDTO.getDinner());
 
         return dietEntity;
     }

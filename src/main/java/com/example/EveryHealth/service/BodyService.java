@@ -20,6 +20,7 @@ public class BodyService {
     private final BodyRepository bodyRepository;
     private final UserRepository userRepository;
 
+    @Transactional
     public void addBodyInformation(BodyDTO bodyDTO) {
         LocalDate date = bodyDTO.getDate(); // 날짜를 DTO에서 가져오기
         Long userId = bodyDTO.getUserId(); // userId를 DTO에서 가져오기
@@ -33,7 +34,6 @@ public class BodyService {
         bodyRepository.save(bodyEntity); // 새로운 데이터 저장
     }
 
-    @Transactional
     public BodyDTO getBodyInformation(Long userId, String date) {
         LocalDate parsedDate = LocalDate.parse(date);
         Optional<BodyEntity> optionalBodyEntity = bodyRepository.findByUserIdAndDate(userId, parsedDate);
