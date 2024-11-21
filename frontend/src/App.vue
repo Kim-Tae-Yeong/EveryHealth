@@ -88,6 +88,27 @@ export default {
             headers: { Authorization: `Bearer ${token}` }
           });
           this.bodyData = response.data;
+          localStorage.setItem('bodyData', JSON.stringify(response.data));
+        } catch (error) {
+          console.error(error);
+        } finally {
+          this.isNavigating = false;
+        }
+      });
+    },
+    async navigateToMyPageDiet() {
+      const link = this.myPageDietLink;
+      const token = localStorage.getItem('token');
+      this.isNavigating = true;
+
+      // 페이지 전환이 완료될 때까지 기다리기 위해 then() 사용
+      this.$router.push(link).then(async () => {
+        try {
+          const response = await this.$axios.get(link, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          this.dietData = response.data;
+          localStorage.setItem('dietData', JSON.stringify(response.data));
         } catch (error) {
           console.error(error);
         } finally {
@@ -101,6 +122,7 @@ export default {
     },
     handleMypageDietClick() {
       this.isNavigating = true;
+      this.navigateToMyPageDiet();
     },
     handleMypageExerciseClick() {
       this.isNavigating = true;

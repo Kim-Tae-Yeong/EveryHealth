@@ -98,6 +98,11 @@ const bodyData = ref({
   pbf: ''
 });
 
+const savedBodyData = localStorage.getItem('bodyData');
+if (savedBodyData) {
+  bodyData.value = JSON.parse(savedBodyData); // 저장된 데이터를 bodyData로 설정
+}
+
 const userId = localStorage.getItem('userId');
 const token = localStorage.getItem('token');
 

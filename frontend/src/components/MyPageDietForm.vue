@@ -76,6 +76,11 @@ const dietData = ref({
   dinner: ''
 });
 
+const savedDietData = localStorage.getItem('dietData');
+if (savedDietData) {
+  dietData.value = JSON.parse(savedDietData); // 저장된 데이터를 bodyData로 설정
+}
+
 const userId = localStorage.getItem('userId');
 const token = localStorage.getItem('token');
 
