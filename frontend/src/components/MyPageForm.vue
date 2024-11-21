@@ -25,11 +25,46 @@
         
         <div class="user-info">
           <h2>Body Information</h2>
-          <p><strong>키:</strong> {{bodyData?.height || ''}} </p>
-          <p><strong>몸무게:</strong> {{bodyData?.weight || ''}} </p>
-          <p><strong>BMI:</strong> {{bodyData?.bmi || ''}} </p>
-          <p><strong>골격근량:</strong> {{bodyData?.smm || ''}} </p>
-          <p><strong>체지방률:</strong> {{bodyData?.pbf || ''}} </p>
+          <label>
+            <strong>키:</strong>
+            <input
+              type="text"
+              v-model="bodyData.height"
+              :placeholder="bodyData?.height || ''"
+            />
+          </label>
+          <label>
+            <strong>몸무게:</strong>
+            <input
+              type="text"
+              v-model="bodyData.weight"
+              :placeholder="bodyData?.weight || ''"
+            />
+          </label>
+          <label>
+            <strong>BMI:</strong>
+            <input
+              type="text"
+              v-model="bodyData.bmi"
+              :placeholder="bodyData?.bmi || ''"
+            />
+          </label>
+          <label>
+            <strong>골격근량:</strong>
+            <input
+              type="text"
+              v-model="bodyData.smm"
+              :placeholder="bodyData?.smm || ''"
+            />
+          </label>
+          <label>
+            <strong>체지방률:</strong>
+            <input
+              type="text"
+              v-model="bodyData.pbf"
+              :placeholder="bodyData?.pbf || ''"
+            />
+          </label>
         </div>
       </div>
     </div>
@@ -46,7 +81,14 @@ import axios from 'axios';
 const selectedDate = ref(new Date()); // 선택된 날짜
 const calendar = ref(null); // VDatePicker 참조
 const router = useRouter();
-const bodyData = ref(null);
+const bodyData = ref({
+  height: '',
+  weight: '',
+  bmi: '',
+  smm: '',
+  pbf: ''
+});
+
 
 const userId = localStorage.getItem('userId');
 const token = localStorage.getItem('token');
@@ -61,7 +103,7 @@ const navigateToDate = async (date) => {
                 Authorization: `Bearer ${token}`
             }
         });
-        bodyData.value = response.data;
+        bodyData.value = response.data || { height: '', weight: '', bmi: '', smm: '', pbf: '' };
 
     } catch (error) {
         console.error(error);
@@ -207,6 +249,27 @@ h1 {
   position: relative;
   left: -100px;
   top : 20px;
+}
+
+.user-info label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.user-info input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.user-info input:focus {
+  border-color: #426B1F;
+  outline: none;
+  box-shadow: 0 0 5px rgba(66, 107, 31, 0.5);
 }
 
 /* 나머지 CSS 스타일은 그대로 유지 */
