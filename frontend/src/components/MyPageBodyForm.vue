@@ -177,6 +177,7 @@ const saveInformation = async () => {
     alert("저장되었습니다.");
     router.push(`/myPageBody/${userId}/${formattedDate}`);
     console.log(response);
+    localStorage.setItem('bodyData', JSON.stringify(requestData));
   } catch (error) {
     console.error(error);
   }

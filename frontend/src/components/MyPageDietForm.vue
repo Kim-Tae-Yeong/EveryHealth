@@ -135,6 +135,7 @@ const saveInformation = async () => {
     alert("저장되었습니다.");
     router.push(`/myPageDiet/${userId}/${formattedDate}`);
     console.log(response);
+    localStorage.setItem('dietData', JSON.stringify(requestData));
   } catch (error) {
     console.error(error);
   }
