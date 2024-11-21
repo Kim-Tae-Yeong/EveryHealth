@@ -23,48 +23,55 @@
 
         <button class="save-button" @click="saveInformation">Save</button>
         
-        <div class="user-info">
-          <h2>Body Information</h2>
-          <label>
-            <strong>키:</strong>
-            <input
-              type="text"
-              v-model="bodyData.height"
-              :placeholder="bodyData?.height || ''"
-            />
-          </label>
-          <label>
-            <strong>몸무게:</strong>
-            <input
-              type="text"
-              v-model="bodyData.weight"
-              :placeholder="bodyData?.weight || ''"
-            />
-          </label>
-          <label>
-            <strong>BMI:</strong>
-            <input
-              type="text"
-              v-model="bodyData.bmi"
-              :placeholder="bodyData?.bmi || ''"
-            />
-          </label>
-          <label>
-            <strong>골격근량:</strong>
-            <input
-              type="text"
-              v-model="bodyData.smm"
-              :placeholder="bodyData?.smm || ''"
-            />
-          </label>
-          <label>
-            <strong>체지방률:</strong>
-            <input
-              type="text"
-              v-model="bodyData.pbf"
-              :placeholder="bodyData?.pbf || ''"
-            />
-          </label>
+         <div class="user-info">
+          <div class="Body-log">
+            <h2 style="color: #426B1F; text-align: center;">Body Information</h2>
+            
+            <div class="input-group">
+              <strong style="color: #426B1F;">키:</strong>
+              <input
+                type="text"
+                v-model="bodyData.height"
+                :placeholder="bodyData?.height || ''"
+              />
+            </div>
+            
+            <div class="input-group">
+              <strong style="color: #426B1F;">몸무게:</strong>
+              <input
+                type="text"
+                v-model="bodyData.weight"
+                :placeholder="bodyData?.weight || ''"
+              />
+            </div>
+            
+            <div class="input-group">
+              <strong style="color: #426B1F;">BMI:</strong>
+              <input
+                type="text"
+                v-model="bodyData.bmi"
+                :placeholder="bodyData?.bmi || ''"
+              />
+            </div>
+            
+            <div class="input-group">
+              <strong style="color: #426B1F;">골격근량:</strong>
+              <input
+                type="text"
+                v-model="bodyData.smm"
+                :placeholder="bodyData?.smm || ''"
+              />
+            </div>
+            
+            <div class="input-group">
+              <strong style="color: #426B1F;">체지방률:</strong>
+              <input
+                type="text"
+                v-model="bodyData.pbf"
+                :placeholder="bodyData?.pbf || ''"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -264,37 +271,47 @@ h1 {
 }
 
 .user-info {
-  width: 600px;
+  display: flex; /* 플렉스 박스 사용 */
+  flex-direction: column; /* 세로 방향으로 정렬 */
+  align-items: flex-start; /* 내용물 왼쪽 정렬 */
+  margin-left: 0; /* 왼쪽 여백을 0으로 설정하여 왼쪽으로 이동 */
+}
+
+.Body-log {
+  width: 600px; /* 원하는 너비로 설정 */
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 10px;
   background-color: #f9f9f9;
-  position: relative;
-  left: -100px;
-  top : 20px;
+  margin-right: 100px;
+  margin-top: 20px;
+  display: flex; /* 플렉스 박스 사용 */
+  flex-direction: column; /* 세로 방향으로 정렬 */
+  align-items: center; /* 내용물 수평 중앙 정렬 */
 }
 
-.user-info label {
-  display: block;
-  margin-bottom: 10px;
+.input-group {
+  display: flex; /* 플렉스 박스를 사용하여 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
+  justify-content: center; /* 수평 중앙 정렬 */
+  margin-bottom: 15px; /* 각 그룹 사이의 간격 */
+  width: 100%; /* 입력 그룹의 너비를 100%로 설정 */
 }
 
-.user-info input {
-  width: 100%;
+.input-group strong {
+  color: #426B1F; /* 텍스트 색상 */
+  margin-right: 10px; /* 레이블과 입력 필드 사이의 간격 */
+  min-width: 100px; /* 레이블의 최소 너비 설정 */
+  text-align: right; /* 레이블을 오른쪽 정렬 */
+}
+
+.Body-log input {
+  width: 50%; /* 입력 필드 너비를 50%로 설정 */
   padding: 8px;
-  margin-top: 5px;
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 1rem;
-  box-sizing: border-box;
+  box-sizing: border-box; /* 패딩과 테두리를 포함하여 총 너비를 계산 */
 }
-
-.user-info input:focus {
-  border-color: #426B1F;
-  outline: none;
-  box-shadow: 0 0 5px rgba(66, 107, 31, 0.5);
-}
-
-/* 나머지 CSS 스타일은 그대로 유지 */
 
 </style>
