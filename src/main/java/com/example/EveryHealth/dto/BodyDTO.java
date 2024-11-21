@@ -18,11 +18,11 @@ public class BodyDTO {
     private Long bodyId;
     private Long userId;
     private LocalDate date;
-    private Integer height;
-    private Integer weight;
-    private Integer bmi;
-    private Integer smm;
-    private Integer pbf;
+    private double height;
+    private double weight;
+    private double bmi;
+    private double smm;
+    private double pbf;
 
     public static BodyDTO toBodyDTO(BodyEntity bodyEntity, UserRepository userRepository) {
         BodyDTO bodyDTO = new BodyDTO();

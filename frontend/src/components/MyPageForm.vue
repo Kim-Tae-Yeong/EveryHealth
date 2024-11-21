@@ -2,7 +2,7 @@
   <div>
     <div class="line-container">
       <h1 class="MyPageLogo">My Page</h1>
-      <div class="horizontal-line"></div> <!-- 세로선 추가 -->
+      <div class="horizontal-line"></div>
     </div>
     <div class="mypage-container">
       <div class="calendar-container">
@@ -19,18 +19,17 @@
         </VDatePicker>
       </div>
       <div class="My log">
-        <!-- exersice log, body log, diet log와 save 버튼을 구현할 부분 -->
-
         <button class="save-button" @click="saveInformation">Save</button>
-        
+
         <div class="user-info">
           <h2>Body Information</h2>
           <label>
             <strong>키:</strong>
             <input
               type="text"
-              v-model="bodyData.height"
-              :placeholder="bodyData?.height || ''"
+              :value="bodyData.height === 0 ? '' : bodyData.height"
+              @input="validateNumberInput"
+              name="height"
             />
           </label>
           <label>
@@ -38,31 +37,36 @@
             <input
               type="text"
               v-model="bodyData.weight"
-              :placeholder="bodyData?.weight || ''"
+              :placeholder="bodyData.weight === 0 ? '' : bodyData.weight || ''"
+              @input="validateNumberInput"
+              name="weight"
             />
           </label>
           <label>
             <strong>BMI:</strong>
             <input
               type="text"
-              v-model="bodyData.bmi"
-              :placeholder="bodyData?.bmi || ''"
+              :value="bodyData.bmi === 0 ? '' : bodyData.bmi || ''"
+              @input="validateNumberInput"
+              name="bmi"
             />
           </label>
           <label>
             <strong>골격근량:</strong>
             <input
               type="text"
-              v-model="bodyData.smm"
-              :placeholder="bodyData?.smm || ''"
+              :value="bodyData.smm === 0 ? '' : bodyData.smm || ''"
+              @input="validateNumberInput"
+              name="smm"
             />
           </label>
           <label>
             <strong>체지방률:</strong>
             <input
               type="text"
-              v-model="bodyData.pbf"
-              :placeholder="bodyData?.pbf || ''"
+              :value="bodyData.pbf === 0 ? '' : bodyData.pbf || ''"
+              @input="validateNumberInput"
+              name="pbf"
             />
           </label>
         </div>
@@ -71,15 +75,14 @@
   </div>
 </template>
 
-
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import 'v-calendar/dist/style.css';
 import axios from 'axios';
 
-const selectedDate = ref(new Date()); // 선택된 날짜
-const calendar = ref(null); // VDatePicker 참조
+const selectedDate = ref(new Date());
+const calendar = ref(null);
 const router = useRouter();
 const bodyData = ref({
   height: '',
@@ -89,24 +92,43 @@ const bodyData = ref({
   pbf: ''
 });
 
-
 const userId = localStorage.getItem('userId');
 const token = localStorage.getItem('token');
 
+// 숫자와 소수점만 입력되도록 필터링하는 메소드
+const validateNumberInput = (event) => {
+  const regex = /^[0-9]*\.?[0-9]+$/; // 정수 또는 실수만 허용
+  let inputValue = event.target.value;
+
+  // 유효한 값이 아니면 소수점 외의 문자 제거
+  if (!regex.test(inputValue)) {
+    inputValue = inputValue.replace(/[^0-9.]/g, ''); // 허용되지 않는 문자는 제거
+  }
+
+  // 값이 0이면 공백으로 설정
+  if (inputValue === '0') {
+    inputValue = ''; // 0이면 공백으로 변경
+  }
+
+  // 모델에 유효한 값만 업데이트
+  event.target.value = inputValue;
+  bodyData.value[event.target.name] = inputValue; // 필드에 맞게 업데이트
+};
+
 const navigateToDate = async (date) => {
   const formattedDate = date.id; // 'id' 속성에서 날짜 추출
-  router.push(`/myPage/${userId}/${formattedDate}`)
+  router.push(`/myPage/${userId}/${formattedDate}`);
   if (formattedDate) {
     try {
-        const response = await axios.get(`/myPage/${userId}/${formattedDate}`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
-        bodyData.value = response.data || { height: '', weight: '', bmi: '', smm: '', pbf: '' };
-
+      const response = await axios.get(`/myPage/${userId}/${formattedDate}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      // 받아온 데이터로 bodyData 업데이트, 없으면 빈 값으로 초기화
+      bodyData.value = response.data || { height: '', weight: '', bmi: '', smm: '', pbf: '' };
     } catch (error) {
-        console.error(error);
+      console.error(error);
     }
   }
 };
@@ -118,7 +140,7 @@ const handleDateSelect = (date) => {
 
 // 오늘 날짜로 이동
 const moveToday = () => {
-  const today = new Date(); // 오늘 날짜 가져오기
+  const today = new Date();
   selectedDate.value = today; // 선택된 날짜를 오늘로 설정
   calendar.value.move(today); // 캘린더를 오늘로 이동
 
@@ -126,28 +148,28 @@ const moveToday = () => {
   navigateToDate({ id: today.toISOString().split('T')[0] }); // ISO 형식으로 날짜를 전달
 };
 
-const saveInformation = async() => {
-  // 선택된 날짜를 ISO 형식으로 변환 후, 'YYYY-MM-DD' 포맷 추출
+const saveInformation = async () => {
   const formattedDate = selectedDate.value.toISOString().split('T')[0];
 
-  // bodyData에 userId와 날짜 추가
   const requestData = {
     ...bodyData.value,
     userId: userId,
     date: formattedDate,
   };
+
   try {
-    const response = await axios.post(`/myPage/{userId}/{formattedDate}`, requestData, {
-        headers: {
-            Authorization : `Bearer ${token}`
-        }
+    const response = await axios.post(`/myPage/${userId}/${formattedDate}`, requestData, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     });
     alert("저장되었습니다.");
+    router.push(`/myPage/${userId}/${formattedDate}`);
     console.log(response);
   } catch (error) {
     console.error(error);
   }
-}
+};
 </script>
 
 <style scoped>
