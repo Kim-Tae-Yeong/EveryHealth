@@ -20,7 +20,6 @@
       </div>
       <div class="My log">
         <button class="save-button" @click="saveInformation">Save</button>
-<<<<<<< HEAD
         
          <div class="user-info">
           <div class="Body-log">
@@ -30,8 +29,9 @@
               <strong style="color: #426B1F;">키:</strong>
               <input
                 type="text"
-                v-model="bodyData.height"
-                :placeholder="bodyData?.height || ''"
+                :value="bodyData.height === 0 ? '' : bodyData.height"
+                @input="validateNumberInput"
+                name="height"
               />
             </div>
             
@@ -39,8 +39,9 @@
               <strong style="color: #426B1F;">몸무게:</strong>
               <input
                 type="text"
-                v-model="bodyData.weight"
-                :placeholder="bodyData?.weight || ''"
+                :value="bodyData.weight === 0 ? '' : bodyData.weight"
+                @input="validateNumberInput"
+                name="weight"
               />
             </div>
             
@@ -48,8 +49,9 @@
               <strong style="color: #426B1F;">BMI:</strong>
               <input
                 type="text"
-                v-model="bodyData.bmi"
-                :placeholder="bodyData?.bmi || ''"
+                :value="bodyData.bmi === 0 ? '' : bodyData.bmi"
+                @input="validateNumberInput"
+                name="bmi"
               />
             </div>
             
@@ -57,8 +59,9 @@
               <strong style="color: #426B1F;">골격근량:</strong>
               <input
                 type="text"
-                v-model="bodyData.smm"
-                :placeholder="bodyData?.smm || ''"
+                :value="bodyData.smm === 0 ? '' : bodyData.smm"
+                @input="validateNumberInput"
+                name="smm"
               />
             </div>
             
@@ -66,8 +69,9 @@
               <strong style="color: #426B1F;">체지방률:</strong>
               <input
                 type="text"
-                v-model="bodyData.pbf"
-                :placeholder="bodyData?.pbf || ''"
+                :value="bodyData.pbf === 0 ? '' : bodyData.pbf"
+                @input="validateNumberInput"
+                name="pbf"
               />
             </div>
           </div>
@@ -119,10 +123,10 @@ const validateNumberInput = (event) => {
 
 const navigateToDate = async (date) => {
   const formattedDate = date.id; // 'id' 속성에서 날짜 추출
-  router.push(`/myPage/${userId}/${formattedDate}`);
+  router.push(`/myPageBody/${userId}/${formattedDate}`);
   if (formattedDate) {
     try {
-      const response = await axios.get(`/myPage/${userId}/${formattedDate}`, {
+      const response = await axios.get(`/myPageBody/${userId}/${formattedDate}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -160,13 +164,13 @@ const saveInformation = async () => {
   };
 
   try {
-    const response = await axios.post(`/myPage/${userId}/${formattedDate}`, requestData, {
+    const response = await axios.post(`/myPageBody/${userId}/${formattedDate}`, requestData, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     });
     alert("저장되었습니다.");
-    router.push(`/myPage/${userId}/${formattedDate}`);
+    router.push(`/myPageBody/${userId}/${formattedDate}`);
     console.log(response);
   } catch (error) {
     console.error(error);

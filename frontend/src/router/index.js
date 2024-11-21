@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';  // Vue 3에서 사
 import mainPage from "@/components/mainPage.vue";
 import SaveForm from "@/components/SaveForm.vue"; // SaveForm 컴포넌트 import
 import LoginForm from "@/components/LoginForm.vue"; // LoginForm 컴포넌트 import
-import MyPageForm from "@/components/MyPageForm.vue";
+import MyPageBodyForm from "@/components/MyPageBodyForm.vue";
 import MyPageDiet from "@/components/MyPageDiet.vue";
 import MyPageExercise from "@/components/MyPageExercise.vue";
 import BoardForm from "@/components/BoardForm.vue";
@@ -27,9 +27,9 @@ const routes = [
     component: LoginForm
   },
   {
-    path: "/myPage/:user_id/:date",
-    name: "MyPageForm",
-    component: MyPageForm
+    path: "/myPageBody/:user_id/:date",
+    name: "MyPageBodyForm",
+    component: MyPageBodyForm
   },
   {
     path: "/myPageDiet/:user_id/:date",
