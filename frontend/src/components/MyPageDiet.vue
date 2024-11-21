@@ -30,6 +30,7 @@
               <input
                 type="text"
                 :value="dietData.breakfast === 0 ? '' : dietData.breakfast"
+                @input="dietData.breakfast = $event.target.value"
                 name="breakfast"
               />
             </div>
@@ -39,6 +40,7 @@
               <input
                 type="text"
                 :value="dietData.lunch === 0 ? '' : dietData.lunch"
+                @input="dietData.lunch = $event.target.value"
                 name="lunch"
               />
             </div>
@@ -48,6 +50,7 @@
               <input
                 type="text"
                 :value="dietData.dinner === 0 ? '' : dietData.dinner"
+                @input="dietData.dinner = $event.target.value"
                 name="dinner"
               />
             </div>
