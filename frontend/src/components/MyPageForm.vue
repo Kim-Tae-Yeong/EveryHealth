@@ -18,20 +18,19 @@
           </template>
         </VDatePicker>
       </div>
-<<<<<<< HEAD
-      <div class="Mylog">
+      <div class="My log">
         <!-- exersice log, body log, diet log와 save 버튼을 구현할 부분 -->
 
         <button class="save-button">Save</button>
-=======
-      <div class="user-info">
-        <h2>Body Information</h2>
-        <p><strong>키:</strong> {{bodyData?.height || ''}} </p>
-        <p><strong>몸무게:</strong> {{bodyData?.weight || ''}} </p>
-        <p><strong>BMI:</strong> {{bodyData?.bmi || ''}} </p>
-        <p><strong>골격근량:</strong> {{bodyData?.smm || ''}} </p>
-        <p><strong>체지방률:</strong> {{bodyData?.pbf || ''}} </p>
->>>>>>> acfee0e76405f8d7c3d8ae8cb073ac9a9771b9e4
+        
+        <div class="user-info">
+          <h2>Body Information</h2>
+          <p><strong>키:</strong> {{bodyData?.height || ''}} </p>
+          <p><strong>몸무게:</strong> {{bodyData?.weight || ''}} </p>
+          <p><strong>BMI:</strong> {{bodyData?.bmi || ''}} </p>
+          <p><strong>골격근량:</strong> {{bodyData?.smm || ''}} </p>
+          <p><strong>체지방률:</strong> {{bodyData?.pbf || ''}} </p>
+        </div>
       </div>
     </div>
   </div>
@@ -199,17 +198,17 @@ h1 {
   padding: 20px;
 }
 
-<<<<<<< HEAD
-=======
 .user-info {
-  flex: 1; /* 나머지 공간을 차지 */
+  width: 600px;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 10px;
   background-color: #f9f9f9;
+  position: relative;
+  left: -100px;
+  top : 20px;
 }
 
 /* 나머지 CSS 스타일은 그대로 유지 */
 
->>>>>>> acfee0e76405f8d7c3d8ae8cb073ac9a9771b9e4
 </style>

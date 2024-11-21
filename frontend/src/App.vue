@@ -8,19 +8,14 @@
 
     <div class="auth-buttons">
       <div v-if="!isLoggedIn">
-<<<<<<< HEAD
-        <button class="auth-button" @click.prevent="handleLoginClick" style="margin-right: 20px;">Log in</button>
-        <button class="auth-button" @click.prevent="handleRegisterClick">Register</button>
-=======
-        <router-link to="/users/login" class="auth-button">Log in</router-link>
-        <router-link to="/users/save" class="auth-button">Register</router-link>
->>>>>>> acfee0e76405f8d7c3d8ae8cb073ac9a9771b9e4
+        <router-link to="/users/login" class="auth-button" style="margin-right: 20px;">Log in</router-link>
+        <router-link to="/users/save" class="auth-button" style="margin-right: 20px;">Register</router-link>
       </div>
 
       <div v-if="isLoggedIn">
-        <router-link to="/ProgramReference" class="nav-link" exact-active-class="active-link">Program Reference</router-link>
-        <router-link to="/board" class="nav-link" exact-active-class="active-link">Community</router-link>
-        <router-link :to="myPageLink" class="nav-link" exact-active-class="active-link" @click.prevent="handleMypageClick">Mypage</router-link>
+        <router-link to="/ProgramReference" class="nav-link" exact-active-class="active-link" style="margin-right: 20px;">Program Reference</router-link>
+        <router-link to="/board" class="nav-link" exact-active-class="active-link" style="margin-right: 20px;">Community</router-link>
+        <router-link :to="myPageLink" class="nav-link" exact-active-class="active-link" @click.prevent="handleMypageClick" style="margin-right: 20px;">Mypage</router-link>
         <button @click="logout" class="auth-button">Log out</button>
       </div>
     </div>
