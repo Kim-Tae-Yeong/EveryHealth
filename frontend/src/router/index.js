@@ -1,20 +1,20 @@
 import { createRouter, createWebHistory } from 'vue-router';  // Vue 3에서 사용
-import mainPage from "@/components/mainPage.vue";
+import MainPageForm from "@/components/MainPageForm.vue";
 import SaveForm from "@/components/SaveForm.vue"; // SaveForm 컴포넌트 import
 import LoginForm from "@/components/LoginForm.vue"; // LoginForm 컴포넌트 import
 import MyPageBodyForm from "@/components/MyPageBodyForm.vue";
-import MyPageDiet from "@/components/MyPageDiet.vue";
-import MyPageExercise from "@/components/MyPageExercise.vue";
-import BoardForm from "@/components/BoardForm.vue";
+import MyPageDietForm from "@/components/MyPageDietForm.vue";
+import MyPageExerciseForm from "@/components/MyPageExerciseForm.vue";
+import CommunityForm from "@/components/CommunityForm.vue";
 import FindEmailByPhoneNumberForm from "@/components/FindEmailByPhoneNumberForm.vue";
 import ChangePasswordForm from "@/components/ChangePasswordForm.vue";
-import ProgramReference from "@/components/ProgramReference.vue";
+import ProgramReferenceForm from "@/components/ProgramReferenceForm.vue";
 
 const routes = [
   {
     path: "/",
-    name: "mainPage",
-    component: mainPage
+    name: "MainPageForm",
+    component: MainPageForm
   },
   {
     path: "/users/save",       // 회원가입 폼 경로
@@ -33,18 +33,18 @@ const routes = [
   },
   {
     path: "/myPageDiet/:user_id/:date",
-    name: "MyPageDiet",
-    component: MyPageDiet 
+    name: "MyPageDietForm",
+    component: MyPageDietForm
   },
   {
     path: "/myPageExercise/:user_id/:date",
-    name: "MyPageExercise",
-    component: MyPageExercise 
+    name: "MyPageExerciseForm",
+    component: MyPageExerciseForm
   },
   {
-    path: "/board",
-    name: "BoardForm",
-    component: BoardForm
+    path: "/community",
+    name: "CommunityForm",
+    component: CommunityForm
   },
   {
     path: "/users/emails/search",
@@ -57,9 +57,9 @@ const routes = [
     component: ChangePasswordForm
   },
   {
-    path: "/ProgramReference",
+    path: "/program-reference",
     name: "ProgramReference",
-    component: ProgramReference
+    component: ProgramReferenceForm
   }
 ];
 

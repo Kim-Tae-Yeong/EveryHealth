@@ -23,9 +23,9 @@ public class CommunityEntity {
     @Column(name = "date", nullable = false)
     private LocalDate date;
 
-    @Column(name = "image_url")
-    private String imageUrl;
+    @Column(name = "community_image_url")
+    private String communityImageUrl;
 
-    @Column(name = "description", length = 1000)
-    private String description;
+    @Column(name = "content", length = 1000)
+    private String content;
 }

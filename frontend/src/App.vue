@@ -13,8 +13,8 @@
       </div>
 
       <div v-if="isLoggedIn">
-        <router-link to="/ProgramReference" class="nav-link" exact-active-class="active-link" style="margin-right: 20px;">Program Reference</router-link>
-        <router-link to="/board" class="nav-link" exact-active-class="active-link" style="margin-right: 20px;">Community</router-link>
+        <router-link to="/program-reference" class="nav-link" exact-active-class="active-link" style="margin-right: 20px;">Program Reference</router-link>
+        <router-link to="/community" class="nav-link" exact-active-class="active-link" style="margin-right: 20px;">Community</router-link>
         <router-link :to="myPageBodyLink" class="nav-link" active-class="active-link" :class="{'active-link': isMypageBodyActive}" @click.prevent="handleMypageBodyClick" style="margin-right: 20px;">My Body Log</router-link>
         <router-link :to="myPageDietLink" class="nav-link" active-class="active-link" :class="{'active-link': isMypageDietActive}" @click.prevent="handleMypageDietClick" style="margin-right: 20px;">My Diet Log</router-link>
         <router-link :to="myPageExerciseLink" class="nav-link" active-class="active-link" :class="{'active-link': isMypageExerciseActive}" @click.prevent="handleMypageExerciseClick" style="margin-right: 20px;">My Exercise Log</router-link>

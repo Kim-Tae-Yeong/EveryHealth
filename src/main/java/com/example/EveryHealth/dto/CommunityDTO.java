@@ -16,6 +16,6 @@ public class CommunityDTO {
     private Long communityId;
     private UserEntity userId;
     private LocalDate date;
-    private String imageUrl;
-    private String description;
+    private String communityImageUrl;
+    private String content;
 }
