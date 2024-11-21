@@ -9,8 +9,6 @@
         <VDatePicker
           ref="calendar"
           expanded
-          :rows="1"
-          :step="1"
           v-model="selectedDate"
           mode="date"
           @dayclick="handleDateSelect"
@@ -20,46 +18,118 @@
           </template>
         </VDatePicker>
       </div>
-      <div class="Mylog">
-
-        <button class="save-button">Save</button>
+      <div class="My log">
+        <button class="save-button" @click="saveInformation">Save</button>
+        
+         <div class="user-info">
+          <div class="Diet-log">
+            <h2 style="color: #426B1F; text-align: center;">Diet Information</h2>
+            
+            <div class="input-group">
+              <strong style="color: #426B1F;">Breakfast :</strong>
+              <input
+                type="text"
+                :value="dietData.breakfast === 0 ? '' : dietData.breakfast"
+                name="breakfast"
+              />
+            </div>
+            
+            <div class="input-group">
+              <strong style="color: #426B1F;">Lunch :</strong>
+              <input
+                type="text"
+                :value="dietData.lunch === 0 ? '' : dietData.lunch"
+                name="lunch"
+              />
+            </div>
+            
+            <div class="input-group">
+              <strong style="color: #426B1F;">Dinner:</strong>
+              <input
+                type="text"
+                :value="dietData.dinner === 0 ? '' : dietData.dinner"
+                name="dinner"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
-
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import 'v-calendar/dist/style.css';
+import axios from 'axios';
 
-const selectedDate = ref(new Date()); // 선택된 날짜
-const calendar = ref(null); // VDatePicker 참조
+const selectedDate = ref(new Date());
+const calendar = ref(null);
 const router = useRouter();
+const dietData = ref({
+  breakfast: '',
+  lunch: '',
+  dinner: ''
+});
+
+const userId = localStorage.getItem('userId');
+const token = localStorage.getItem('token');
+
+const navigateToDate = async (date) => {
+  const formattedDate = date.id; // 'id' 속성에서 날짜 추출
+  router.push(`/myPageDiet/${userId}/${formattedDate}`);
+  if (formattedDate) {
+    try {
+      const response = await axios.get(`/myPageDiet/${userId}/${formattedDate}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      // 받아온 데이터로 dietData 업데이트, 없으면 빈 값으로 초기화
+      dietData.value = response.data || { breakfast: '', lunch: '', dinner: '' };
+    } catch (error) {
+      console.error(error);
+    }
+  }
+};
 
 const handleDateSelect = (date) => {
   selectedDate.value = new Date(date.id); // id에서 날짜 추출하여 selectedDate 업데이트
   navigateToDate(date); // 날짜 URL로 이동
 };
 
-const userId = localStorage.getItem('userId');
-
-const navigateToDate = (date) => {
-  const formattedDate = date.id; // 'id' 속성에서 날짜 추출
-  if (formattedDate) {
-    router.push(`/myPageDiet/${userId}/${formattedDate}`); // 선택된 날짜로 이동
-  }
-};
-
 // 오늘 날짜로 이동
 const moveToday = () => {
-  const today = new Date(); // 오늘 날짜 가져오기
+  const today = new Date();
   selectedDate.value = today; // 선택된 날짜를 오늘로 설정
   calendar.value.move(today); // 캘린더를 오늘로 이동
 
   // 오늘 날짜로 navigateToDate 함수 호출
   navigateToDate({ id: today.toISOString().split('T')[0] }); // ISO 형식으로 날짜를 전달
+};
+
+const saveInformation = async () => {
+  const formattedDate = selectedDate.value.toISOString().split('T')[0];
+
+  const requestData = {
+    ...dietData.value,
+    userId: userId,
+    date: formattedDate,
+  };
+
+  try {
+    const response = await axios.post(`/myPageDiet/${userId}/${formattedDate}`, requestData, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    alert("저장되었습니다.");
+    router.push(`/myPageDiet/${userId}/${formattedDate}`);
+    console.log(response);
+  } catch (error) {
+    console.error(error);
+  }
 };
 </script>
 
@@ -174,6 +244,50 @@ h1 {
   justify-content: space-between; /* 캘린더와 다른 요소 사이 여백 */
   align-items: flex-start; /* 상단 정렬 */
   padding: 20px;
+}
+
+.user-info {
+  display: flex; /* 플렉스 박스 사용 */
+  flex-direction: column; /* 세로 방향으로 정렬 */
+  align-items: flex-start; /* 내용물 왼쪽 정렬 */
+  margin-left: 0; /* 왼쪽 여백을 0으로 설정하여 왼쪽으로 이동 */
+}
+
+.Diet-log {
+  width: 600px; /* 원하는 너비로 설정 */
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  margin-right: 100px;
+  margin-top: 20px;
+  display: flex; /* 플렉스 박스 사용 */
+  flex-direction: column; /* 세로 방향으로 정렬 */
+  align-items: center; /* 내용물 수평 중앙 정렬 */
+}
+
+.input-group {
+  display: flex; /* 플렉스 박스를 사용하여 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
+  justify-content: center; /* 수평 중앙 정렬 */
+  margin-bottom: 15px; /* 각 그룹 사이의 간격 */
+  width: 100%; /* 입력 그룹의 너비를 100%로 설정 */
+}
+
+.input-group strong {
+  color: #426B1F; /* 텍스트 색상 */
+  margin-right: 10px; /* 레이블과 입력 필드 사이의 간격 */
+  min-width: 100px; /* 레이블의 최소 너비 설정 */
+  text-align: right; /* 레이블을 오른쪽 정렬 */
+}
+
+.Diet-log input {
+  width: 50%; /* 입력 필드 너비를 50%로 설정 */
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box; /* 패딩과 테두리를 포함하여 총 너비를 계산 */
 }
 
 </style>
