@@ -24,7 +24,7 @@ public class MyPageController {
     }
 
     @PostMapping("/{userId}/{date}")
-    public ResponseEntity<String> addBodyInformation(@PathVariable Long userId, @PathVariable String date, @RequestBody BodyDTO bodyDTO) {
+    public ResponseEntity<String> addInformation(@RequestBody BodyDTO bodyDTO) {
             bodyService.addBodyInformation(bodyDTO);
             return ResponseEntity.ok().body("정보 저장 성공");
     }

@@ -21,7 +21,7 @@
       <div class="My log">
         <!-- exersice log, body log, diet log와 save 버튼을 구현할 부분 -->
 
-        <button class="save-button">Save</button>
+        <button class="save-button" @click="saveInformation">Save</button>
         
         <div class="user-info">
           <h2>Body Information</h2>
@@ -125,6 +125,29 @@ const moveToday = () => {
   // 오늘 날짜로 navigateToDate 함수 호출
   navigateToDate({ id: today.toISOString().split('T')[0] }); // ISO 형식으로 날짜를 전달
 };
+
+const saveInformation = async() => {
+  // 선택된 날짜를 ISO 형식으로 변환 후, 'YYYY-MM-DD' 포맷 추출
+  const formattedDate = selectedDate.value.toISOString().split('T')[0];
+
+  // bodyData에 userId와 날짜 추가
+  const requestData = {
+    ...bodyData.value,
+    userId: userId,
+    date: formattedDate,
+  };
+  try {
+    const response = await axios.post(`/myPage/{userId}/{formattedDate}`, requestData, {
+        headers: {
+            Authorization : `Bearer ${token}`
+        }
+    });
+    alert("저장되었습니다.");
+    console.log(response);
+  } catch (error) {
+    console.error(error);
+  }
+}
 </script>
 
 <style scoped>

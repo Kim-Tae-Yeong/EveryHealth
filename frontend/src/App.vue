@@ -15,7 +15,7 @@
       <div v-if="isLoggedIn">
         <router-link to="/ProgramReference" class="nav-link" exact-active-class="active-link" style="margin-right: 20px;">Program Reference</router-link>
         <router-link to="/board" class="nav-link" exact-active-class="active-link" style="margin-right: 20px;">Community</router-link>
-        <router-link :to="myPageLink" class="nav-link" exact-active-class="active-link" @click.prevent="handleMypageClick" style="margin-right: 20px;">Mypage</router-link>
+        <router-link :to="myPageLink" class="nav-link" active-class="active-link" :class="{'active-link': isMypageActive}" @click.prevent="handleMypageClick" style="margin-right: 20px;">Mypage</router-link>
         <button @click="logout" class="auth-button">Log out</button>
       </div>
     </div>
@@ -32,6 +32,7 @@ export default {
       isLoggedIn: false,
       isNavigating: false,
       bodyData: null,
+      isMypageActive: false, // 추가: myPage 활성화 여부 확인
     };
   },
   mounted() {
@@ -83,11 +84,22 @@ export default {
     handleMypageClick() {
       this.isNavigating = true;
       this.navigateToMyPage();
+    },
+    // myPage가 활성화된 상태인지 확인
+    checkIfMypageIsActive() {
+      const currentPath = this.$route.path;
+      const userId = localStorage.getItem('user_id');
+      if (currentPath.startsWith(`/myPage/${userId}`)) {
+        this.isMypageActive = true;
+      } else {
+        this.isMypageActive = false;
+      }
     }
   },
   watch: {
     '$route': function () {
       this.checkLoginStatus();
+      this.checkIfMypageIsActive(); // 경로가 변경될 때마다 myPage 활성화 상태 점검
     }
   }
 };
@@ -135,7 +147,7 @@ nav {
   font-weight: bold;
 }
 
-.active-link {
+.nav-link.active-link {
   font-weight: bold;
 }
 
