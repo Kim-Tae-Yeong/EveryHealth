@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="line-container">
-      <h1 class="MyPageLogo">My Page</h1>
+      <h1 class="MyPageLogo">My Body Log</h1>
       <div class="horizontal-line"></div> <!-- 세로선 추가 -->
     </div>
     <div class="mypage-container">

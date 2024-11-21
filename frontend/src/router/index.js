@@ -3,6 +3,8 @@ import mainPage from "@/components/mainPage.vue";
 import SaveForm from "@/components/SaveForm.vue"; // SaveForm 컴포넌트 import
 import LoginForm from "@/components/LoginForm.vue"; // LoginForm 컴포넌트 import
 import MyPageForm from "@/components/MyPageForm.vue";
+import MyPageDiet from "@/components/MyPageDiet.vue";
+import MyPageExercise from "@/components/MyPageExercise.vue";
 import BoardForm from "@/components/BoardForm.vue";
 import FindEmailByPhoneNumberForm from "@/components/FindEmailByPhoneNumberForm.vue";
 import ChangePasswordForm from "@/components/ChangePasswordForm.vue";
@@ -28,6 +30,16 @@ const routes = [
     path: "/myPage/:user_id/:date",
     name: "MyPageForm",
     component: MyPageForm
+  },
+  {
+    path: "/myPageDiet/:user_id/:date",
+    name: "MyPageDiet",
+    component: MyPageDiet 
+  },
+  {
+    path: "/myPageExercise/:user_id/:date",
+    name: "MyPageExercise",
+    component: MyPageExercise 
   },
   {
     path: "/board",

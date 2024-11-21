@@ -15,7 +15,9 @@
       <div v-if="isLoggedIn">
         <router-link to="/ProgramReference" class="nav-link" exact-active-class="active-link" style="margin-right: 20px;">Program Reference</router-link>
         <router-link to="/board" class="nav-link" exact-active-class="active-link" style="margin-right: 20px;">Community</router-link>
-        <router-link :to="myPageLink" class="nav-link" active-class="active-link" :class="{'active-link': isMypageActive}" @click.prevent="handleMypageClick" style="margin-right: 20px;">Mypage</router-link>
+        <router-link :to="myPageLink" class="nav-link" active-class="active-link" :class="{'active-link': isMypageActive}" @click.prevent="handleMypageClick" style="margin-right: 20px;">My Body Log</router-link>
+        <router-link :to="myPageDietLink" class="nav-link" active-class="active-link" :class="{'active-link': isMypageDietActive}" @click.prevent="handleMypageDietClick" style="margin-right: 20px;">My Diet Log</router-link>
+        <router-link :to="myPageExerciseLink" class="nav-link" active-class="active-link" :class="{'active-link': isMypageExerciseActive}" @click.prevent="handleMypageExerciseClick" style="margin-right: 20px;">My Exercise Log</router-link>
         <button @click="logout" class="auth-button">Log out</button>
       </div>
     </div>
@@ -33,6 +35,8 @@ export default {
       isNavigating: false,
       bodyData: null,
       isMypageActive: false, // 추가: myPage 활성화 여부 확인
+      isMypageDietActive: false,
+      isMypageExerciseActive: false
     };
   },
   mounted() {
@@ -43,6 +47,16 @@ export default {
       const userId = localStorage.getItem('user_id');
       const today = this.getTodayDate();
       return userId ? `/myPage/${userId}/${today}` : '/';
+    },
+    myPageDietLink() {
+      const userId = localStorage.getItem('user_id');
+      const today = this.getTodayDate();
+      return userId ? `/myPageDiet/${userId}/${today}` : '/';
+    },
+    myPageExerciseLink() {
+      const userId = localStorage.getItem('user_id');
+      const today = this.getTodayDate();
+      return userId ? `/myPageExercise/${userId}/${today}` : '/';
     }
   },
   methods: {
@@ -85,6 +99,12 @@ export default {
       this.isNavigating = true;
       this.navigateToMyPage();
     },
+    handleMypageDietClick() {
+      this.isNavigating = true;
+    },
+    handleMypageExerciseClick() {
+      this.isNavigating = true;
+    },
     // myPage가 활성화된 상태인지 확인
     checkIfMypageIsActive() {
       const currentPath = this.$route.path;
@@ -94,12 +114,32 @@ export default {
       } else {
         this.isMypageActive = false;
       }
-    }
+    },
+    checkIfMypageDietIsActive() {
+      const currentPath = this.$route.path;
+      const userId = localStorage.getItem('user_id');
+      if (currentPath.startsWith(`/myPageDiet/${userId}`)) {
+        this.isMypageDietActive = true;
+      } else {
+        this.isMypageDietActive = false;
+      }
+    },
+    checkIfMypageExerciseIsActive() {
+      const currentPath = this.$route.path;
+      const userId = localStorage.getItem('user_id');
+      if (currentPath.startsWith(`/myPageExercise/${userId}`)) {
+        this.isMypageExerciseActive = true;
+      } else {
+        this.isMypageExerciseActive = false;
+      }
+    },
   },
   watch: {
     '$route': function () {
       this.checkLoginStatus();
       this.checkIfMypageIsActive(); // 경로가 변경될 때마다 myPage 활성화 상태 점검
+      this.checkIfMypageDietIsActive();
+      this.checkIfMypageExerciseIsActive();
     }
   }
 };
