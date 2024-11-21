@@ -28,21 +28,21 @@ public class BodyEntity {
     private LocalDate date;
 
     @Column(name = "height")
-    private Integer height;
+    private double height;
 
     @Column(name = "weight")
-    private Integer weight;
+    private double weight;
 
     @Column(name = "bmi")
-    private Integer bmi;
+    private double bmi;
 
     // 골격근량
     @Column(name = "smm")
-    private Integer smm;
+    private double smm;
 
     // 체지방률
     @Column(name = "pbf")
-    private Integer pbf;
+    private double pbf;
 
     public static BodyEntity toBodyEntity(BodyDTO bodyDTO, UserRepository userRepository) {
         BodyEntity bodyEntity = new BodyEntity();
