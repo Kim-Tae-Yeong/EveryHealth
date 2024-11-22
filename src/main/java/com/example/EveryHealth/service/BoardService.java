@@ -54,7 +54,7 @@ public class BoardService {
             try {
                 boardFile.transferTo(fileToSave);
             } catch (IOException e) {
-                throw new RuntimeException("파일 저장 중 오류 발생 : " + originalFileName);
+                throw new RuntimeException("파일 저장 중 오류 발생가 발생했습니다.");
             }
 
             BoardFileEntity boardFileEntity = BoardFileEntity.toBoardFileEntity(board, originalFileName, storedFileName);
@@ -86,6 +86,15 @@ public class BoardService {
             return BoardDTO.toBoardDTO(optionalBoardEntity.get());
         } else {
             throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
+        }
+    }
+
+    public void deleteBoard(Long boardId) {
+        Optional<BoardEntity> board = boardRepository.findById(boardId);
+        if (board.isPresent()) {
+            boardRepository.delete(board.get());
+        } else {
+            throw new RuntimeException("게시글을 찾을 수 없습니다.");
         }
     }
 }

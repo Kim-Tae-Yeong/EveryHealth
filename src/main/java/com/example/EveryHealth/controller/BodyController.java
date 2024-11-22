@@ -21,6 +21,6 @@ public class BodyController {
     @PostMapping("/{userId}/{date}")
     public ResponseEntity<String> addBodyInformation(@RequestBody BodyDTO bodyDTO) {
             bodyService.addBodyInformation(bodyDTO);
-            return ResponseEntity.ok().body("정보 저장 성공");
+            return ResponseEntity.ok().body("신체 정보 저장에 성공했습니다.");
     }
 }

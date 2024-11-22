@@ -22,7 +22,7 @@ public class BoardController {
     public ResponseEntity<String> save(BoardDTO boardDTO) {
         try{
             boardService.save(boardDTO);
-            return ResponseEntity.ok().body("정보 저장 성공");
+            return ResponseEntity.ok().body("게시글 저장에 성공했습니다.");
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
@@ -49,6 +49,17 @@ public class BoardController {
             return ResponseEntity.ok().body(board);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    // 게시글 삭제
+    @DeleteMapping("/{boardId}")
+    public ResponseEntity<String> deleteBoard(@PathVariable Long boardId) {
+        try {
+            boardService.deleteBoard(boardId);
+            return ResponseEntity.ok().body("게시글 삭제에 성공했습니다.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 }

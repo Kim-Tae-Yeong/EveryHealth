@@ -28,13 +28,13 @@ public class UserController {
         try {
             // 회원가입 처리
             userService.save(userDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body("회원가입 성공!");
+            return ResponseEntity.status(HttpStatus.CREATED).body("회원가입에 성공했습니다.");
         } catch (IllegalArgumentException e) {
             // 이메일 중복 시 400 Bad Request 상태 코드 반환
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {
             // 그 외 에러 처리
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원가입 실패");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원가입에 실패했습니다.");
         }
     }
 
@@ -51,7 +51,7 @@ public class UserController {
             respone.put("userId", loginResult.getUserId());
             return ResponseEntity.ok().body(respone);
         } else {
-            return ResponseEntity.status(401).body("로그인 실패");
+            return ResponseEntity.status(401).body("로그인에 실패했습니다.");
         }
     }
 

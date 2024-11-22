@@ -21,6 +21,6 @@ public class DietController {
     @PostMapping("/{userId}/{date}")
     public ResponseEntity<String> addDietInformation(@RequestBody DietDTO dietDTO) {
         dietService.addDietInformation(dietDTO);
-        return ResponseEntity.ok().body("정보 저장 성공");
+        return ResponseEntity.ok().body("식단 정보 저장에 성공했습니다.");
     }
 }
