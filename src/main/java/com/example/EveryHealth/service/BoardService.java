@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -70,12 +71,21 @@ public class BoardService {
         return boardDTOList;
     }
 
-    public List<BoardDTO> getMyBoards(Long userId) {
+    public List<BoardDTO> getMyAllBoards(Long userId) {
         List<BoardEntity> boardEntityList = boardRepository.findByUser_UserId(userId);
         List<BoardDTO> boardDTOList = new ArrayList<>();
         for(BoardEntity boardEntity : boardEntityList) {
             boardDTOList.add(BoardDTO.toBoardDTO(boardEntity));
         }
         return boardDTOList;
+    }
+
+    public BoardDTO getBoard(Long boardId) {
+        Optional<BoardEntity> optionalBoardEntity = boardRepository.findById(boardId);
+        if(optionalBoardEntity.isPresent()) {
+            return BoardDTO.toBoardDTO(optionalBoardEntity.get());
+        } else {
+            throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
+        }
     }
 }

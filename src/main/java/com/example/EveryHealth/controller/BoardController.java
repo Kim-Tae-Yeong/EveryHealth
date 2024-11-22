@@ -36,9 +36,19 @@ public class BoardController {
     }
 
     // 본인 게시글 전체 조회
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<BoardDTO>> getMyBoards(@PathVariable Long userId) {
-        List<BoardDTO> myBoards = boardService.getMyBoards(userId);
-        return ResponseEntity.ok().body(myBoards);
+    public ResponseEntity<List<BoardDTO>> getMyAllBoards(@RequestParam Long userId) {
+        List<BoardDTO> myAllBoards = boardService.getMyAllBoards(userId);
+        return ResponseEntity.ok().body(myAllBoards);
+    }
+
+    // 게시글 상세 조회
+    @GetMapping("/{boardId}")
+    public ResponseEntity<?> getBoard(@PathVariable Long boardId) {
+        try {
+            BoardDTO board = boardService.getBoard(boardId);
+            return ResponseEntity.ok().body(board);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }
