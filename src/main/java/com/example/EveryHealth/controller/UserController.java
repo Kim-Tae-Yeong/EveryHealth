@@ -24,7 +24,7 @@ public class UserController {
 
     // 회원가입
     @PostMapping("save")
-    public ResponseEntity<String> register(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<String> save(@RequestBody UserDTO userDTO) {
         try {
             // 회원가입 처리
             userService.save(userDTO);
