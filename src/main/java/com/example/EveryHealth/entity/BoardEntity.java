@@ -31,7 +31,7 @@ public class BoardEntity {
     @Column(name = "content", length = 1000)
     private String content;
 
-    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<BoardFileEntity> boardFileEntityList = new ArrayList<>();
 
     public static BoardEntity toBoardEntity(BoardDTO boardDTO, UserRepository userRepository) {
