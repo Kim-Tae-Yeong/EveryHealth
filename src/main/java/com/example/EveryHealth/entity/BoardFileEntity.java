@@ -20,14 +20,18 @@ public class BoardFileEntity {
     @Column(name = "stored_file_name")
     private String storedFileName;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @Column(name = "image_url", length = 500)
+    private String imageUrl;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "board_id")
     private BoardEntity boardEntity;
 
-    public static BoardFileEntity toBoardFileEntity(BoardEntity boardEntity, String originalFileName, String storedFileName) {
+    public static BoardFileEntity toBoardFileEntity(BoardEntity boardEntity, String originalFileName, String storedFileName, String imageUrl) {
         BoardFileEntity boardFileEntity = new BoardFileEntity();
         boardFileEntity.setOriginalFileName(originalFileName);
         boardFileEntity.setStoredFileName(storedFileName);
+        boardFileEntity.setImageUrl(imageUrl);
         boardFileEntity.setBoardEntity(boardEntity);
         return boardFileEntity;
     }

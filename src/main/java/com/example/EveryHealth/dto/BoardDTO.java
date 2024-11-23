@@ -25,15 +25,18 @@ public class BoardDTO {
     private String content;
 
     // 파일을 담는 용도
-    private List<MultipartFile> boardFile;
+    private MultipartFile boardFile;
 
     // 원본 파일 이름
-    private List<String> originalFileName;
+    private String originalFileName;
 
     // 서버 저장용 파일 이름
-    private List<String> storedFileName;
+    private String storedFileName;
 
-    public BoardDTO(LocalDateTime date, String content, List<MultipartFile> boardFile) {
+    // 이미지 URL
+    private String imageUrl;
+
+    public BoardDTO(LocalDateTime date, String content, MultipartFile boardFile) {
         this.date = date;
         this.content = content;
         this.boardFile = boardFile;
@@ -47,15 +50,10 @@ public class BoardDTO {
         boardDTO.setDate(boardEntity.getDate());
         boardDTO.setContent(boardEntity.getContent());
 
-        List<String> originalFileNameList = new ArrayList<>();
-        List<String> storedFileNameList = new ArrayList<>();
-        for(BoardFileEntity boardFileEntity : boardEntity.getBoardFileEntityList()) {
-            originalFileNameList.add(boardFileEntity.getOriginalFileName());
-            storedFileNameList.add(boardFileEntity.getStoredFileName());
-        }
-
-        boardDTO.setOriginalFileName(originalFileNameList);
-        boardDTO.setStoredFileName(storedFileNameList);
+        BoardFileEntity boardFileEntity = boardEntity.getBoardFileEntity();
+        boardDTO.setOriginalFileName(boardFileEntity.getOriginalFileName());
+        boardDTO.setStoredFileName(boardFileEntity.getStoredFileName());
+        boardDTO.setImageUrl(boardFileEntity.getImageUrl());
 
         return boardDTO;
     }

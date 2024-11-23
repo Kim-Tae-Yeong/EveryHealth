@@ -2,10 +2,45 @@
     <div class="line-container"> <!-- 부모 요소 추가 -->
          <h1 class="CommunityLogo">Show off your Body!</h1>
          <div class="horizontal-line"></div> <!-- 가로선 -->
+         <div v-if="imageUrls.length > 0">
+            <div v-for="(imageUrl, index) in imageUrls" :key="index">
+                <img :src="imageUrl" :alt="'Uploaded Image ' + (index + 1)" />
+            </div>
+         </div>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
+
+const token = localStorage.getItem('token');
+
+export default {
+    data() {
+        return {
+            imageUrls: [],
+        };
+    },
+    mounted() {
+        this.fetchImages();
+    },
+    methods: {
+        fetchImages() {
+            axios.get('/community', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            })
+            .then(response => {
+                this.imageUrls = response.data.map(board => `http://localhost:8082${board.imageUrl}`);
+                // console.log(this.imageUrls);
+            })
+            .catch(error => {
+                console.error("Error fetching images: " + error);
+            });
+        }
+    }
+}
 
 </script>
 
