@@ -13,12 +13,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -80,9 +84,18 @@ public class BoardService {
         }
     }
 
+    @Transactional
     public void deleteBoard(Long boardId) {
         Optional<BoardEntity> board = boardRepository.findById(boardId);
         if (board.isPresent()) {
+            String storedFileName = board.get().getBoardFileEntity().getStoredFileName();
+            String basePath = System.getProperty("user.dir");
+            Path filePath = Paths.get(basePath, "src", "main", "resources", "static", "img", storedFileName);
+            try {
+                Files.deleteIfExists(filePath);
+            } catch (IOException e) {
+                throw new RuntimeException("이미지 삭제 중 오류가 발생했습니다.");
+            }
             boardRepository.delete(board.get());
         } else {
             throw new RuntimeException("게시글을 찾을 수 없습니다.");

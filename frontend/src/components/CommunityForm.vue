@@ -2,9 +2,9 @@
     <div class="line-container"> <!-- 부모 요소 추가 -->
          <h1 class="CommunityLogo">Show off your Body!</h1>
          <div class="horizontal-line"></div> <!-- 가로선 -->
-         <div v-if="imageUrls.length > 0">
-            <div v-for="(imageUrl, index) in imageUrls" :key="index">
-                <img :src="imageUrl" :alt="'Uploaded Image ' + (index + 1)" />
+         <div v-if="boards.length > 0">
+            <div v-for="(board, index) in boards" :key="index">
+                <img :src="board.imageUrl" :alt="'Uploaded Image ' + (index + 1)" @click="navigateToBoard(board.boardId)"/>
             </div>
          </div>
          <button @click="navigateToSave">게시글 작성</button>
@@ -19,7 +19,7 @@ const token = localStorage.getItem('token');
 export default {
     data() {
         return {
-            imageUrls: [],
+            boards: [],
         };
     },
     mounted() {
@@ -33,15 +33,20 @@ export default {
                 }
             })
             .then(response => {
-                this.imageUrls = response.data.map(board => `http://localhost:8082${board.imageUrl}`);
-                // console.log(this.imageUrls);
+                this.boards = response.data.map(board => ({
+                    boardId: board.boardId,
+                    imageUrl: `http://localhost:8082${board.imageUrl}`,
+                }));
             })
             .catch(error => {
                 console.error("Error fetching images: " + error);
             });
         },
         navigateToSave() {
-            this.$router.push("community/save");
+            this.$router.push("/community/save");
+        },
+        navigateToBoard(boardId) {
+            this.$router.push(`/community/${boardId}`);
         }
     }
 }
