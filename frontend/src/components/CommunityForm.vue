@@ -7,6 +7,7 @@
                 <img :src="imageUrl" :alt="'Uploaded Image ' + (index + 1)" />
             </div>
          </div>
+         <button @click="navigateToSave">게시글 작성</button>
     </div>
 </template>
 
@@ -38,6 +39,9 @@ export default {
             .catch(error => {
                 console.error("Error fetching images: " + error);
             });
+        },
+        navigateToSave() {
+            this.$router.push("community/save");
         }
     }
 }

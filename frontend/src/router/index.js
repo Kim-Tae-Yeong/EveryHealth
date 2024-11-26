@@ -9,6 +9,7 @@ import CommunityForm from "@/components/CommunityForm.vue";
 import FindEmailByPhoneNumberForm from "@/components/FindEmailByPhoneNumberForm.vue";
 import ChangePasswordForm from "@/components/ChangePasswordForm.vue";
 import ProgramReferenceForm from "@/components/ProgramReferenceForm.vue";
+import CommunitySaveForm from "@/components/CommunitySaveForm.vue";
 
 const routes = [
   {
@@ -45,6 +46,11 @@ const routes = [
     path: "/community",
     name: "CommunityForm",
     component: CommunityForm
+  },
+  {
+    path: "/community/save",
+    name: "CommunitySaveForm",
+    component: CommunitySaveForm
   },
   {
     path: "/users/emails/search",
