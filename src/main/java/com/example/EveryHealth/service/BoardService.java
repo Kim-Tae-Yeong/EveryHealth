@@ -114,4 +114,13 @@ public class BoardService {
             return null;
         }
     }
+
+    public void updateBoard(Long boardId, BoardDTO boardDTO) throws IOException {
+        try {
+            deleteBoard(boardId);
+            save(boardDTO);
+        } catch (IOException e) {
+            throw new RuntimeException("파일 수정 중 오류가 발생했습니다.");
+        }
+    }
 }

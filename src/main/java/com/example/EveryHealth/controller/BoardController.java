@@ -22,7 +22,7 @@ public class BoardController {
 
     // 게시글 저장
     @PostMapping("/community/save")
-    public ResponseEntity<String> save(BoardDTO boardDTO) {
+    public ResponseEntity<String> save(@ModelAttribute BoardDTO boardDTO) {
         try{
             boardService.save(boardDTO);
             return ResponseEntity.ok().body("게시글 저장에 성공했습니다.");
@@ -80,6 +80,17 @@ public class BoardController {
             return ResponseEntity.ok().body("게시글 삭제에 성공했습니다.");
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    // 게시글 수정
+    @PostMapping("/community/{boardId}")
+    public ResponseEntity<?> updateBoard(@PathVariable Long boardId, @ModelAttribute BoardDTO boardDTO) {
+        try {
+            boardService.updateBoard(boardId, boardDTO);
+            return ResponseEntity.ok().body("게시글 수정에 성공했습니다.");
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 }
