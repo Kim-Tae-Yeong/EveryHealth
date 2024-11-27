@@ -31,5 +31,8 @@ public class ExerciseListEntity {
     // 운동 설명
     @Column(name = "description", nullable = false, length = 1000)
     private String description; // 운동 방법 및 설명
+
+    @Column(name = "stored_file_name", nullable = false, length = 1000)
+    private String storedFileName;
 }
 

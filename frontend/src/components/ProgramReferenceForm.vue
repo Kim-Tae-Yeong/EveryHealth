@@ -2,11 +2,52 @@
     <div class="line-container"> <!-- 부모 요소 추가 -->
          <h1 class="PRLogo">Check how to exercise</h1>
          <div class="horizontal-line"></div> <!-- 가로선 -->
+         <div v-if="exerciseLists.length > 0">
+            <div v-for="(exerciseList, index) in exerciseLists" :key="index">
+                <p>{{exerciseList.exerciseName}}</p>
+                <p>{{exerciseList.category}}</p>
+                <p>{{exerciseList.description}}</p>
+                <img :src="exerciseList.imageUrl" alt="Upload Image" />
+            </div>
+         </div>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
 
+const token = localStorage.getItem('token');
+
+export default {
+    data() {
+        return {
+            exerciseLists: [],
+        };
+    },
+    mounted() {
+        this.fetchExerciseLists();
+    },
+    methods: {
+        fetchExerciseLists() {
+            axios.get('exerciseLists', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            })
+            .then(response => {
+                this.exerciseLists = response.data.map(exerciseList => ({
+                    exerciseName: exerciseList.exerciseName,
+                    category: exerciseList.categorize,
+                    description: exerciseList.description,
+                    imageUrl: `http://localhost:8082/${exerciseList.exerciseListImageUrl}`
+                }));
+            })
+            .catch(error => {
+                console.error("Error fetching exerciseLists: " + error);
+            });
+        }
+    }
+}
 </script>
 
 <style>

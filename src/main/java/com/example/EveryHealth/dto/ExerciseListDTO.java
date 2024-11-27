@@ -19,6 +19,7 @@ public class ExerciseListDTO {
     private String categorize;
     private String exerciseListImageUrl;
     private String description;
+    private String storedFileName;
 
     /**
      * Entity -> DTO 변환 메서드
@@ -32,6 +33,7 @@ public class ExerciseListDTO {
         dto.setCategorize(exerciseListEntity.getCategorize());
         dto.setExerciseListImageUrl(exerciseListEntity.getExerciseListImageUrl());
         dto.setDescription(exerciseListEntity.getDescription());
+        dto.setStoredFileName(exerciseListEntity.getStoredFileName());
         return dto;
     }
 }
