@@ -5,7 +5,8 @@
         <p><strong>작성 날짜 : </strong> {{date}}</p>
         <p><strong>내용 : </strong> {{content}}</p>
 
-        <button @click="submit">삭제하기</button>
+        <button @click="navigateToDelete">삭제하기</button>
+        <button @click="navigateToEdit">수정하기</button>
     </div>
 </template>
 
@@ -42,7 +43,7 @@ export default {
                     console.error("Error fetching board details : ", error);
                 });
         },
-        submit() {
+        navigateToDelete() {
             const boardId = this.$route.params.boardId;
             axios.delete(`/community/${boardId}`, {
                 headers: {
@@ -57,6 +58,10 @@ export default {
                 console.error("Error deleting board : ", error);
                 alert("삭제 중 오류가 발생했습니다.");
             })
+        },
+        navigateToEdit() {
+            const boardId = this.$route.params.boardId;
+            this.$router.push(`/community/edit/${boardId}?date=${this.date}`);
         }
     }
 }

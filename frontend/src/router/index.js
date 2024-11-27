@@ -11,6 +11,7 @@ import ChangePasswordForm from "@/components/ChangePasswordForm.vue";
 import ProgramReferenceForm from "@/components/ProgramReferenceForm.vue";
 import CommunitySaveForm from "@/components/CommunitySaveForm.vue";
 import CommunityDetailForm from "@/components/CommunityDetailForm.vue";
+import CommunityEditForm from "@/components/CommunityEditForm.vue";
 
 const routes = [
   {
@@ -57,6 +58,11 @@ const routes = [
     path: "/community/:boardId",
     name: "CommunityDetailForm",
     component: CommunityDetailForm
+  },
+  {
+    path: "/community/edit/:boardId",
+    name: "CommunityEditForm",
+    component: CommunityEditForm
   },
   {
     path: "/users/emails/search",
