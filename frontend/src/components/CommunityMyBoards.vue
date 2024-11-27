@@ -8,7 +8,7 @@
                 <img :src="board.imageUrl" :alt="'Uploaded Image ' + (index + 1)" @click="navigateToBoard(board.boardId)"/>
             </div>
         </div>
-        <button @click="navigateToMyBoards">내 게시글 보기</button>
+        <button @click="navigateToAllBoards">전체 게시글 보기</button>
     </div>
 </template>
 
@@ -28,9 +28,17 @@ export default {
     },
     methods: {
         fetchImages() {
-            axios.get('/community', {
+            const userId = localStorage.getItem('userId');
+            if(!userId) {
+                alert('로그인이 필요합니다.');
+                return;
+            }
+            axios.get('/community/myBoards', {
                 headers: {
                     Authorization: `Bearer ${token}`,
+                },
+                params: {
+                    userId: userId,
                 }
             })
             .then(response => {
@@ -49,16 +57,8 @@ export default {
         navigateToBoard(boardId) {
             this.$router.push(`/community/${boardId}`);
         },
-        navigateToMyBoards() {
-            const userId = localStorage.getItem('userId');
-            if(!userId) {
-                alert("로그인이 필요합니다.");
-                return;
-            }
-            this.$router.push({
-                path: "/community/myBoards",
-                query: {userId: userId}
-            });
+        navigateToAllBoards() {
+            this.$router.push("/community");
         }
     }
 }

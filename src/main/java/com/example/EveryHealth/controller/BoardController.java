@@ -56,7 +56,7 @@ public class BoardController {
 
     // 본인 게시글 전체 조회
     @GetMapping("/community/myBoards")
-    public ResponseEntity<List<BoardDTO>> getMyAllBoards(@RequestParam Long userId) {
+    public ResponseEntity<List<BoardDTO>> getMyAllBoards(@RequestParam("userId") Long userId) {
         List<BoardDTO> myAllBoards = boardService.getMyAllBoards(userId);
         return ResponseEntity.ok().body(myAllBoards);
     }

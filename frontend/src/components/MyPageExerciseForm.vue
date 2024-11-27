@@ -21,45 +21,125 @@
         </VDatePicker>
       </div>
       <div class="Mylog">
-
-        <button class="save-button">Save</button>
+        <button class="save-button" @click="saveInformation">Save</button>
+        <button @click="addExerciseLog">운동 추가</button>
+        <div v-for="(exercise, index) in exerciseLogs" :key="index">
+            <div>
+                <label for="exerciseName">운동 이름</label>
+                <input
+                    type="text"
+                    v-model="exercise.exerciseName"
+                    placeholder="운동 이름 입력"
+                />
+            </div>
+            <div>
+                <label for="setCount">세트 수</label>
+                <input
+                    type="text"
+                    v-model="exercise.setCount"
+                    placeholder="세트 수 입력"
+                />
+            </div>
+            <div>
+                <label for="count">횟수</label>
+                <input
+                    type="text"
+                    v-model="exercise.count"
+                    placeholder="횟수 입력"
+                />
+            </div>
+            <div>
+                <label for="weight">무게</label>
+                <input
+                    type="text"
+                    v-model="exercise.weight"
+                    placeholder="무게 입력"
+                />
+            </div>
+            <button @click="deleteExerciseLog(index)">삭제</button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
-
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted} from 'vue';
 import { useRouter } from 'vue-router';
 import 'v-calendar/dist/style.css';
+import axios from 'axios';
 
-const selectedDate = ref(new Date()); // 선택된 날짜
-const calendar = ref(null); // VDatePicker 참조
+const selectedDate = ref(new Date());
+const calendar = ref(null);
 const router = useRouter();
 
-const handleDateSelect = (date) => {
-  selectedDate.value = new Date(date.id); // id에서 날짜 추출하여 selectedDate 업데이트
-  navigateToDate(date); // 날짜 URL로 이동
+const exerciseLogs = ref([]);
+const userId = localStorage.getItem('userId');
+const token = localStorage.getItem('token');
+
+const formatDate = (date) => {
+  return date.toISOString().split('T')[0];
 };
 
-const userId = localStorage.getItem('userId');
+const addExerciseLog = () => {
+  exerciseLogs.value.push({
+    exerciseName: '',
+    setCount: '',
+    count: '',
+    weight: '',
+    userId: userId,
+    date: formatDate(selectedDate.value),
+  });
+};
+
+const handleDateSelect = (date) => {
+  selectedDate.value = new Date(date.id);
+  const formattedDate = formatDate(selectedDate.value);
+  const savedData = localStorage.getItem(`exerciseLogs-${formattedDate}`);
+
+  exerciseLogs.value = savedData ? JSON.parse(savedData) : [];
+  navigateToDate(formattedDate);
+};
 
 const navigateToDate = (date) => {
-  const formattedDate = date.id; // 'id' 속성에서 날짜 추출
-  if (formattedDate) {
-    router.push(`/myPageExercise/${userId}/${formattedDate}`); // 선택된 날짜로 이동
+  if (date) {
+    router.push(`/myPageExercise/${userId}/${date}`);
   }
 };
 
-// 오늘 날짜로 이동
 const moveToday = () => {
-  const today = new Date(); // 오늘 날짜 가져오기
-  selectedDate.value = today; // 선택된 날짜를 오늘로 설정
-  calendar.value.move(today); // 캘린더를 오늘로 이동
+  const today = new Date();
+  selectedDate.value = today;
+  calendar.value.move(today);
 
-  // 오늘 날짜로 navigateToDate 함수 호출
-  navigateToDate({ id: today.toISOString().split('T')[0] }); // ISO 형식으로 날짜를 전달
+  handleDateSelect({ id: today.toISOString().split('T')[0] });
+};
+
+const saveInformation = async () => {
+  const formattedDate = formatDate(selectedDate.value);
+  try {
+    const response = await axios.post(`/myPageExercise/${userId}/${formattedDate}`, exerciseLogs.value, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    alert("저장되었습니다.");
+    router.push(`/myPageExercise/${userId}/${formattedDate}`);
+    localStorage.setItem(`exerciseLogs-${formattedDate}`, JSON.stringify(exerciseLogs.value));
+    console.log(response);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+onMounted(() => {
+  const formattedDate = formatDate(selectedDate.value);
+  const savedData = localStorage.getItem(`exerciseLogs-${formattedDate}`);
+  exerciseLogs.value = savedData ? JSON.parse(savedData) : [];
+});
+
+const deleteExerciseLog = (index) => {
+  exerciseLogs.value.splice(index, 1);
 };
 </script>
 

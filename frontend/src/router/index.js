@@ -12,6 +12,7 @@ import ProgramReferenceForm from "@/components/ProgramReferenceForm.vue";
 import CommunitySaveForm from "@/components/CommunitySaveForm.vue";
 import CommunityDetailForm from "@/components/CommunityDetailForm.vue";
 import CommunityEditForm from "@/components/CommunityEditForm.vue";
+import CommunityMyBoards from "@/components/CommunityMyBoards.vue";
 
 const routes = [
   {
@@ -63,6 +64,11 @@ const routes = [
     path: "/community/edit/:boardId",
     name: "CommunityEditForm",
     component: CommunityEditForm
+  },
+  {
+    path: "/community/myBoards",
+    name: "CommunityMyBoards",
+    component: CommunityMyBoards
   },
   {
     path: "/users/emails/search",
