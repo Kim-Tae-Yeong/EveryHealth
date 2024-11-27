@@ -14,7 +14,7 @@
 
       <div v-if="isLoggedIn">
         <router-link to="/program-reference" class="nav-link" exact-active-class="active-link" style="margin-right: 20px;">Program Reference</router-link>
-        <router-link to="/community" class="nav-link" exact-active-class="active-link" style="margin-right: 20px;">Community</router-link>
+        <router-link to="/community" class="nav-link" exact-active-class="active-link" :class="{'active-link': isCommunityActive}" style="margin-right: 20px;">Community</router-link>
         <router-link :to="myPageBodyLink" class="nav-link" active-class="active-link" :class="{'active-link': isMypageBodyActive}" @click.prevent="handleMypageBodyClick" style="margin-right: 20px;">My Body Log</router-link>
         <router-link :to="myPageDietLink" class="nav-link" active-class="active-link" :class="{'active-link': isMypageDietActive}" @click.prevent="handleMypageDietClick" style="margin-right: 20px;">My Diet Log</router-link>
         <router-link :to="myPageExerciseLink" class="nav-link" active-class="active-link" :class="{'active-link': isMypageExerciseActive}" @click.prevent="handleMypageExerciseClick" style="margin-right: 20px;">My Exercise Log</router-link>
@@ -36,7 +36,7 @@ export default {
       bodyData: null,
       isMypageBodyActive: false, // 추가: myPage 활성화 여부 확인
       isMypageDietActive: false,
-      isMypageExerciseActive: false
+      isMypageExerciseActive: false,
     };
   },
   mounted() {
@@ -57,6 +57,9 @@ export default {
       const userId = localStorage.getItem('user_id');
       const today = this.getTodayDate();
       return userId ? `/myPageExercise/${userId}/${today}` : '/';
+    },
+    isCommunityActive() {
+      return this.$route.path.startsWith('/community');
     }
   },
   methods: {
@@ -155,6 +158,14 @@ export default {
         this.isMypageExerciseActive = false;
       }
     },
+    checkIfCommunityIsActive() {
+      const currentPath = this.$route.path;
+      if (currentPath.startsWith(`/community/`)) {
+        this.isCommunityActive = true;
+      } else {
+        this.isCommunityActive = false;
+      }
+    },
   },
   watch: {
     '$route': function () {
@@ -162,6 +173,7 @@ export default {
       this.checkIfMypageBodyIsActive(); // 경로가 변경될 때마다 myPage 활성화 상태 점검
       this.checkIfMypageDietIsActive();
       this.checkIfMypageExerciseIsActive();
+      this.checkIfCommunityIsActive();
     }
   }
 };

@@ -1,9 +1,9 @@
 <template>
     <div>
-        <h2>게시글 작성</h2>
+        <h2>Edit your Post</h2>
 
         <div>
-            <label for="image">사진 업로드</label>
+            <label for="image">Upload your Photo</label>
             <input
                 type="file"
                 id="image"
@@ -12,7 +12,7 @@
         </div>
 
         <div>
-            <label for="content">내용</label>
+            <label for="content">Content</label>
             <textarea
                 type="content"
                 v-model="content"
@@ -20,7 +20,7 @@
             />
         </div>
 
-        <button @click="submit">저장하기</button>
+        <button @click="submit">Save</button>
     </div>
 </template>
 
