@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -66,7 +68,12 @@ public class BoardController {
     public ResponseEntity<?> getBoard(@PathVariable Long boardId) {
         try {
             BoardDTO board = boardService.getBoard(boardId);
-            return ResponseEntity.ok().body(board);
+            Long userId = board.getUserId();
+            String name = boardService.findNameByUserId(userId);
+            Map<String, Object> response = new HashMap<>();
+            response.put("board", board);
+            response.put("name", name);
+            return ResponseEntity.ok().body(response);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }

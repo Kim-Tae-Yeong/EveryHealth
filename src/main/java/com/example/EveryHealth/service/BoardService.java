@@ -84,6 +84,10 @@ public class BoardService {
         }
     }
 
+    public String findNameByUserId(Long userId) {
+        return userRepository.findById(userId).get().getName();
+    }
+
     @Transactional
     public void deleteBoard(Long boardId) {
         Optional<BoardEntity> board = boardRepository.findById(boardId);

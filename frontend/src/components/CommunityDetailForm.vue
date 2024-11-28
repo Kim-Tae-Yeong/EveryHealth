@@ -4,6 +4,7 @@
         <div class="image-container">
             <img :src="imageUrl" alt="게시글 이미지" class="post-image" />
         </div>
+        <p class="detail-text"><strong>Writer: </strong> {{ writer }}</p>
         <p class="detail-text"><strong>Upload date: </strong> {{ date }}</p>
         <p class="detail-text"><strong>Content: </strong> {{ content }}</p>
 
@@ -39,9 +40,11 @@ export default {
                 }
             })
                 .then(response => {
-                    this.imageUrl = `http://localhost:8082${response.data.imageUrl}`;
-                    this.date = response.data.date;
-                    this.content = response.data.content;
+                    const data = response.data;
+                    this.imageUrl = `http://localhost:8082${data.board.imageUrl}`;
+                    this.date = data.board.date;
+                    this.content = data.board.content;
+                    this.writer = data.name;
                 })
                 .catch(error => {
                     console.error("Error fetching board details: ", error);
