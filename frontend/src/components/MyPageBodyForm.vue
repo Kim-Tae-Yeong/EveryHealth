@@ -82,7 +82,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import 'v-calendar/dist/style.css';
 import axios from 'axios';
@@ -96,6 +96,26 @@ const bodyData = ref({
   bmi: '',
   smm: '',
   pbf: ''
+});
+
+// 서버에서 데이터를 가져오는 함수
+const fetchBodyData = async (formattedDate) => {
+  try {
+    const response = await axios.get(`/myPageBody/${userId}/${formattedDate}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    bodyData.value = response.data || { height: '', weight: '', bmi: '', smm: '', pbf: '' };
+  } catch (error) {
+    console.error('Failed to fetch body data:', error);
+  }
+};
+
+// 페이지가 로드되었을 때 호출하여 데이터 로드
+onMounted(() => {
+  const formattedDate = selectedDate.value.toISOString().split('T')[0]; // ISO 형식으로 날짜 변환
+  fetchBodyData(formattedDate);
 });
 
 const savedBodyData = localStorage.getItem('bodyData');
