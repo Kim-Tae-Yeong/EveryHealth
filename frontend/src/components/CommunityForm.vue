@@ -2,13 +2,16 @@
     <div class="line-container"> <!-- 부모 요소 추가 -->
         <h1 class="CommunityLogo">Show off your Body!</h1>
         <div class="horizontal-line"></div> <!-- 가로선 -->
-        <button @click="navigateToSave" class="post-button">Post it</button>
+        <div class="button-container">
+            <button @click="navigateToSave" class="post-button">Post it</button>
+            <button @click="navigateToMyBoards" class="post-button">Show my Post</button>
+        </div>
         <div v-if="boards.length > 0" class="image-grid">
             <div v-for="(board, index) in boards" :key="index" class="image-item">
                 <img :src="board.imageUrl" :alt="'Uploaded Image ' + (index + 1)" @click="navigateToBoard(board.boardId)"/>
             </div>
         </div>
-        <button @click="navigateToMyBoards">내 게시글 보기</button>
+        <div v-if="boards.length === 0" class="placeholder">No images available</div> <!-- 이미지가 없을 때 표시 -->
     </div>
 </template>
 
@@ -57,7 +60,7 @@ export default {
             }
             this.$router.push({
                 path: "/community/myBoards",
-                query: {userId: userId}
+                query: { userId: userId }
             });
         }
     }
@@ -91,24 +94,31 @@ export default {
   margin-top: 10px; /* h1과 가로선 사이의 간격 */
 }
 
-.image-item {
-  flex: 0 0 calc(20% - 8px); /* 한 줄에 5개 표시 (20% 너비 - 간격) */
-  max-width: calc(20% - 8px); /* 최대 너비 20% - 간격 */
-  box-sizing: border-box; /* 패딩과 보더를 포함하여 계산 */
+.image-grid {
+  display: grid; /* CSS Grid 사용 */
+  grid-template-columns: repeat(5, 1fr); /* 5개의 열로 구성 */
+  gap: 10px 20px; /* 수직 간격 10px, 수평 간격 20px */
+  width: 100%; /* 전체 너비를 차지하도록 설정 */
 }
 
-.image-grid {
+.image-item {
+  height: 250px; /* 고정 높이 설정 */
+  overflow: hidden; /* 넘치는 부분 숨기기 */
   display: flex; /* Flexbox 사용 */
-  flex-wrap: wrap; /* 줄 바꿈 */
-  justify-content: center; /* 가운데 정렬 */
-  gap: 10px; /* 사진 간격 */
+  justify-content: center; /* 중앙 정렬 */
+  align-items: center; /* 중앙 정렬 */
 }
 
 .image-item img {
   width: 100%; /* 이미지 너비를 부모 요소에 맞춤 */
-  max-height: 150px; /* 최대 세로 길이 설정 */
-  height: auto; /* 비율 유지 */
-  object-fit: contain; /* 비율을 유지하면서 전체가 보이도록 조정 */
+  height: 100%; /* 이미지 높이를 부모 요소에 맞춤 */
+  object-fit: cover; /* 비율을 유지하면서 전체가 보이도록 조정 */
+}
+
+.placeholder {
+  margin-top: 20px; /* 여백 추가 */
+  font-size: 18px; /* 폰트 크기 설정 */
+  color: #888; /* 색상 설정 */
 }
 
 .post-button {
@@ -129,5 +139,11 @@ export default {
 
 .post-button:active {
   transform: scale(0.95); /* 클릭 시 버튼 살짝 축소 */
+}
+
+.button-container {
+  display: flex; /* 버튼을 한 행에 배치 */
+  gap: 10px; /* 버튼 간의 간격 */
+  margin-top: 10px; /* 가로선과 버튼 사이의 간격 */
 }
 </style>

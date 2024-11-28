@@ -21,50 +21,52 @@
         </VDatePicker>
       </div>
       <div class="Mylog">
-        <button class="save-button" @click="saveInformation">Save</button>
-        <button @click="addExerciseLog">운동 추가</button>
-        <div v-for="(exercise, index) in exerciseLogs" :key="index">
-            <div>
-                <label for="exerciseName">운동 이름</label>
-                <input
-                    type="text"
-                    v-model="exercise.exerciseName"
-                    placeholder="운동 이름 입력"
-                />
+        <button @click="addExerciseLog" class="exercise-button">Add your Exercise</button>
+        <div class="exercise-logs">
+          <div v-for="(exercise, index) in exerciseLogs" :key="index" class="exercise-log">
+            <div class="input-group">
+              <label for="exerciseName" style="color: #426B1F;">Exercise name</label>
+              <input
+                type="text"
+                v-model="exercise.exerciseName"
+                placeholder="운동 이름 입력"
+              />
             </div>
-            <div>
-                <label for="setCount">세트 수</label>
-                <input
-                    type="text"
-                    v-model="exercise.setCount"
-                    placeholder="세트 수 입력"
-                />
+            <div class="input-group">
+              <label for="setCount" style="color: #426B1F;">Set count</label>
+              <input
+                type="text"
+                v-model="exercise.setCount"
+                placeholder="세트 수 입력"
+              />
             </div>
-            <div>
-                <label for="count">횟수</label>
-                <input
-                    type="text"
-                    v-model="exercise.count"
-                    placeholder="횟수 입력"
-                />
+            <div class="input-group">
+              <label for="count" style="color: #426B1F;">Count</label>
+              <input
+                type="text"
+                v-model="exercise.count"
+                placeholder="횟수 입력"
+              />
             </div>
-            <div>
-                <label for="weight">무게</label>
-                <input
-                    type="text"
-                    v-model="exercise.weight"
-                    placeholder="무게 입력"
-                />
+            <div class="input-group">
+              <label for="weight" style="color: #426B1F;">Weight</label>
+              <input
+                type="text"
+                v-model="exercise.weight"
+                placeholder="무게 입력"
+              />
             </div>
-            <button @click="deleteExerciseLog(index)">삭제</button>
+            <button @click="deleteExerciseLog(index)" class="delete-button">Delete</button>
+          </div>
         </div>
+        <button v-if="exerciseLogs.length > 0" class="save-button" @click="saveInformation">Save</button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted} from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import 'v-calendar/dist/style.css';
 import axios from 'axios';
@@ -218,9 +220,7 @@ h1 {
   font-size: 1rem; /* 글씨 크기 */
   cursor: pointer; /* 커서 모양 변경 */
   transition: background-color 0.3s, transform 0.2s; /* 호버 및 클릭 시 애니메이션 */
-  position: absolute;
-  right: 100px;
-  bottom: 30px;
+  margin-top: 20px; /* 위쪽 여백 추가 */
 }
 
 .save-button:hover {
@@ -256,4 +256,83 @@ h1 {
   padding: 20px;
 }
 
+.Mylog {
+  display: flex; /* Flexbox로 설정 */
+  flex-direction: column; /* 세로 방향으로 정렬 */
+  align-items: flex-start; /* 왼쪽 정렬 */
+  margin-right: 300px; /* 오른쪽 여백 조정 */
+  margin-top: 20px; /* 상단 여백 추가 */
+}
+
+.delete-button {
+  background-color: #426B1F; /* 버튼 배경색 (파란색) */
+  color: #fff; /* 텍스트 색상 (흰색) */
+  border: none; /* 기본 테두리 제거 */
+  border-radius: 5px; /* 둥근 모서리 */
+  padding: 5px 10px; /* 버튼 크기 */
+  font-size: 1rem; /* 글씨 크기 */
+  cursor: pointer; /* 커서 모양 변경 */
+  transition: background-color 0.3s, transform 0.2s; /* 호버 및 클릭 시 애니메이션 */
+  margin-bottom: 10px; /* 버튼 간 간격 */
+}
+
+.delete-button:hover {
+  background-color: #71B636 !important; /* 호버 시 색상 변경 */
+}
+
+.delete-button:active {
+  transform: scale(0.95); /* 클릭 시 버튼 살짝 축소 */
+}
+
+.exercise-button {
+  background-color: #426B1F; /* 버튼 배경색 (파란색) */
+  color: #fff; /* 텍스트 색상 (흰색) */
+  border: none; /* 기본 테두리 제거 */
+  border-radius: 5px; /* 둥근 모서리 */
+  padding: 5px 10px; /* 버튼 크기 */
+  font-size: 1rem; /* 글씨 크기 */
+  cursor: pointer; /* 커서 모양 변경 */
+  transition: background-color 0.3s, transform 0.2s; /* 호버 및 클릭 시 애니메이션 */
+  margin-bottom: 10px; /* 버튼 간 간격 */
+  margin-right: 200px;
+}
+
+.exercise-button:hover {
+  background-color: #71B636 !important; /* 호버 시 색상 변경 */
+}
+
+.exercise-button:active {
+  transform: scale(0.95); /* 클릭 시 버튼 살짝 축소 */
+}
+
+.exercise-logs {
+  display: flex;
+  flex-direction: column; /* 수직으로 정렬 */
+  width: 100%; /* 전체 너비 사용 */
+  margin-top: 10px; /* 버튼과 운동 로그 간의 간격을 유지 */
+}
+
+.exercise-log {
+  width: 100%; /* 전체 너비 사용 */
+  margin-bottom: 15px; /* 각 운동 로그 간의 간격 */
+  padding: 10px; /* 내부 여백 */
+  border: 1px solid #ddd; /* 경계선 추가 */
+  border-radius: 5px; /* 둥근 모서리 */
+  background-color: #f9f9f9; /* 배경색 추가 */
+}
+
+.input-group {
+  display: flex;
+  align-items: center; /* 레이블과 입력 필드 수직 정렬 */
+  margin-bottom: 10px; /* 각 그룹 간의 간격 */
+}
+
+.input-group label {
+  margin-right: 10px; /* 레이블과 입력 필드 간의 간격 */
+  width: 120px; /* 레이블의 고정 너비 */
+}
+
+.input-group input {
+  flex: 1; /* 입력 필드가 가로로 가능한 공간을 차지하도록 설정 */
+}
 </style>

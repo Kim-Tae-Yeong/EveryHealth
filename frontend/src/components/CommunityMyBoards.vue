@@ -2,13 +2,15 @@
     <div class="line-container"> <!-- 부모 요소 추가 -->
         <h1 class="CommunityLogo">Show off your Body!</h1>
         <div class="horizontal-line"></div> <!-- 가로선 -->
-        <button @click="navigateToSave" class="post-button">Post it</button>
+        <div class="button-container">
+            <button @click="navigateToSave" class="post-button">Post it</button>
+            <button @click="navigateToAllBoards" class="post-button">Show Total Post</button>
+        </div>
         <div v-if="boards.length > 0" class="image-grid">
             <div v-for="(board, index) in boards" :key="index" class="image-item">
                 <img :src="board.imageUrl" :alt="'Uploaded Image ' + (index + 1)" @click="navigateToBoard(board.boardId)"/>
             </div>
         </div>
-        <button @click="navigateToAllBoards">전체 게시글 보기</button>
     </div>
 </template>
 
@@ -130,4 +132,11 @@ export default {
 .post-button:active {
   transform: scale(0.95); /* 클릭 시 버튼 살짝 축소 */
 }
+
+.button-container {
+    display: flex; /* 버튼을 한 행에 배치 */
+    gap: 10px; /* 버튼 간의 간격 */
+    margin-top: 10px; /* 가로선과 버튼 사이의 간격 */
+}
+
 </style>
