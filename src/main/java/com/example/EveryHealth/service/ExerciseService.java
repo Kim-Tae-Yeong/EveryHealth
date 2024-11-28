@@ -34,18 +34,17 @@ public class ExerciseService {
     }
 
     @Transactional
-    public void addExerciseInformation(List<ExerciseDTO> exerciseDTOs) {
-        LocalDate date = exerciseDTOs.getFirst().getDate();
-        Long userId = exerciseDTOs.getFirst().getUserId();
-
+    public void addExerciseInformation(Long userId, LocalDate date, List<ExerciseDTO> exerciseDTOs) {
         Optional<List<ExerciseEntity>> existingExerciseEntity = exerciseRepository.findByUserIdAndDate(userId, date);
         existingExerciseEntity.ifPresent(exerciseEntities -> {
             exerciseEntities.forEach(exerciseRepository::delete);
         });
 
-        for(ExerciseDTO exerciseDTO : exerciseDTOs) {
-            ExerciseEntity exerciseEntity = ExerciseEntity.toExerciseEntity(exerciseDTO, userRepository);
-            exerciseRepository.save(exerciseEntity);
+        if(!exerciseDTOs.isEmpty()) {
+            for(ExerciseDTO exerciseDTO : exerciseDTOs) {
+                ExerciseEntity exerciseEntity = ExerciseEntity.toExerciseEntity(exerciseDTO, userRepository);
+                exerciseRepository.save(exerciseEntity);
+            }
         }
     }
 }
