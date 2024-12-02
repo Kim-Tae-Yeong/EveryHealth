@@ -84,8 +84,8 @@ public class BoardService {
         }
     }
 
-    public String findNameByUserId(Long userId) {
-        return userRepository.findById(userId).get().getName();
+    public String findEmailByUserId(Long userId) {
+        return userRepository.findById(userId).get().getEmail();
     }
 
     @Transactional

@@ -44,7 +44,7 @@ export default {
                     this.imageUrl = `http://localhost:8082${data.board.imageUrl}`;
                     this.date = data.board.date;
                     this.content = data.board.content;
-                    this.writer = data.name;
+                    this.writer = data.email;
                 })
                 .catch(error => {
                     console.error("Error fetching board details: ", error);

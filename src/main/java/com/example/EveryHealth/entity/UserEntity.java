@@ -24,30 +24,23 @@ public class UserEntity {
     @Column(name = "phone_number", length = 11, nullable = false)
     private String phoneNumber;
 
-    @Column(name = "name", length = 30, nullable = false)
-    private String name;
-
-    @Column(name = "nickname", length = 30)
-    private String nickname;
-
     @Column(name = "password", length = 100, nullable = false)
     private String password;
 
-    @Column(name = "profile_image")
-    @Lob
-    private byte[] profileImage;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<BodyEntity> bodies;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<DietEntity> diets;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<ExerciseEntity> exercises;
 
     public static UserEntity toUserEntity(UserDTO userDTO, String encryptedPassword) {
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(userDTO.getEmail());
         userEntity.setPhoneNumber(userDTO.getPhoneNumber());
-        userEntity.setName(userDTO.getName());
-        userEntity.setNickname(userDTO.getNickname());
         userEntity.setPassword(encryptedPassword);
-        userEntity.setProfileImage(userDTO.getProfileImage());
         return userEntity;
     }
 }

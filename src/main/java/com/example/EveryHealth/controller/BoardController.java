@@ -69,10 +69,10 @@ public class BoardController {
         try {
             BoardDTO board = boardService.getBoard(boardId);
             Long userId = board.getUserId();
-            String name = boardService.findNameByUserId(userId);
+            String email = boardService.findEmailByUserId(userId);
             Map<String, Object> response = new HashMap<>();
             response.put("board", board);
-            response.put("name", name);
+            response.put("email", email);
             return ResponseEntity.ok().body(response);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());

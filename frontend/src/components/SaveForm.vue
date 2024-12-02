@@ -13,16 +13,6 @@
       </div>
 
       <div class="input-group">
-        <label for="name">Username :</label>
-        <input type="text" id="name" v-model="userForm.name" required />
-      </div>
-
-      <div class="input-group">
-        <label for="nickname">Nickname :</label>
-        <input type="text" id="nickname" v-model="userForm.nickname" required />
-      </div>
-
-      <div class="input-group">
         <label for="password">Password (over 8) :</label>
         <input type="password" id="password" v-model="userForm.password" required />
       </div>
@@ -39,8 +29,6 @@ export default {
       userForm: {
         email: '',
         phoneNumber: '',
-        name: '',
-        nickname: '',
         password: ''
       }
     };
@@ -67,8 +55,6 @@ export default {
       const userData = {
         email: this.userForm.email,
         phoneNumber: this.userForm.phoneNumber,
-        name: this.userForm.name,
-        nickname: this.userForm.nickname,
         password: this.userForm.password
       };
       // 서버에 JSON 데이터 전송
