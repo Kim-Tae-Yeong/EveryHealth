@@ -8,7 +8,7 @@
         <p class="detail-text"><strong>Upload date: </strong> {{ date }}</p>
         <p class="detail-text"><strong>Content: </strong> {{ content }}</p>
 
-        <div class="button-container">
+        <div v-if="currentUserId === writerUserId" class="button-container">
             <button @click="navigateToDelete" class="delete-button">Delete</button>
             <button @click="navigateToEdit" class="modify-button">Modify</button>
         </div>
@@ -25,7 +25,10 @@ export default {
         return {
             imageUrl: "",
             date: "",
-            content: ""
+            content: "",
+            writer: "",
+            writerUserId: "",
+            currentUserId: localStorage.getItem('userId'),
         };
     },
     mounted() {
@@ -45,6 +48,7 @@ export default {
                     this.date = data.board.date;
                     this.content = data.board.content;
                     this.writer = data.email;
+                    this.writerUserId = String(data.board.userId);
                 })
                 .catch(error => {
                     console.error("Error fetching board details: ", error);
