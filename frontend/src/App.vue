@@ -15,9 +15,9 @@
       <div v-if="isLoggedIn">
         <router-link to="/program-reference" class="nav-link" exact-active-class="active-link" style="margin-right: 20px;">Program Reference</router-link>
         <router-link to="/community" class="nav-link" exact-active-class="active-link" :class="{'active-link': isCommunityActive}" style="margin-right: 20px;">Community</router-link>
-        <router-link :to="myPageBodyLink" class="nav-link" active-class="active-link" :class="{'active-link': isMypageBodyActive}" @click.prevent="handleMypageBodyClick" style="margin-right: 20px;">My Body Log</router-link>
-        <router-link :to="myPageDietLink" class="nav-link" active-class="active-link" :class="{'active-link': isMypageDietActive}" @click.prevent="handleMypageDietClick" style="margin-right: 20px;">My Diet Log</router-link>
-        <router-link :to="myPageExerciseLink" class="nav-link" active-class="active-link" :class="{'active-link': isMypageExerciseActive}" @click.prevent="handleMypageExerciseClick" style="margin-right: 20px;">My Exercise Log</router-link>
+        <router-link :to="myPageBodyLink" class="nav-link" active-class="active-link" :class="{'active-link': isMyPageBodyActive}" @click.prevent="handleMyPageBodyClick" style="margin-right: 20px;">My Body Log</router-link>
+        <router-link :to="myPageDietLink" class="nav-link" active-class="active-link" :class="{'active-link': isMyPageDietActive}" @click.prevent="handleMyPageDietClick" style="margin-right: 20px;">My Diet Log</router-link>
+        <router-link :to="myPageExerciseLink" class="nav-link" active-class="active-link" :class="{'active-link': isMyPageExerciseActive}" @click.prevent="handleMyPageExerciseClick" style="margin-right: 20px;">My Exercise Log</router-link>
         <button @click="logout" class="auth-button">Log out</button>
       </div>
     </div>
@@ -34,9 +34,9 @@ export default {
       isLoggedIn: false,
       isNavigating: false,
       bodyData: null,
-      isMypageBodyActive: false, // 추가: myPage 활성화 여부 확인
-      isMypageDietActive: false,
-      isMypageExerciseActive: false,
+      isMyPageBodyActive: false, // 추가: myPage 활성화 여부 확인
+      isMyPageDietActive: false,
+      isMyPageExerciseActive: false,
     };
   },
   mounted() {
@@ -44,17 +44,17 @@ export default {
   },
   computed: {
     myPageBodyLink() {
-      const userId = localStorage.getItem('user_id');
+      const userId = localStorage.getItem('userId');
       const today = this.getTodayDate();
       return userId ? `/myPageBody/${userId}/${today}` : '/';
     },
     myPageDietLink() {
-      const userId = localStorage.getItem('user_id');
+      const userId = localStorage.getItem('userId');
       const today = this.getTodayDate();
       return userId ? `/myPageDiet/${userId}/${today}` : '/';
     },
     myPageExerciseLink() {
-      const userId = localStorage.getItem('user_id');
+      const userId = localStorage.getItem('userId');
       const today = this.getTodayDate();
       return userId ? `/myPageExercise/${userId}/${today}` : '/';
     },
@@ -119,43 +119,43 @@ export default {
         }
       });
     },
-    handleMypageBodyClick() {
+    handleMyPageBodyClick() {
       this.isNavigating = true;
       this.navigateToMyPageBody();
     },
-    handleMypageDietClick() {
+    handleMyPageDietClick() {
       this.isNavigating = true;
       this.navigateToMyPageDiet();
     },
-    handleMypageExerciseClick() {
+    handleMyPageExerciseClick() {
       this.isNavigating = true;
     },
     // myPage가 활성화된 상태인지 확인
-    checkIfMypageBodyIsActive() {
+    checkIfMyPageBodyIsActive() {
       const currentPath = this.$route.path;
-      const userId = localStorage.getItem('user_id');
+      const userId = localStorage.getItem('userId');
       if (currentPath.startsWith(`/myPageBody/${userId}`)) {
-        this.isMypageBodyActive = true;
+        this.isMyPageBodyActive = true;
       } else {
-        this.isMypageBodyActive = false;
+        this.isMyPageBodyActive = false;
       }
     },
-    checkIfMypageDietIsActive() {
+    checkIfMyPageDietIsActive() {
       const currentPath = this.$route.path;
-      const userId = localStorage.getItem('user_id');
+      const userId = localStorage.getItem('userId');
       if (currentPath.startsWith(`/myPageDiet/${userId}`)) {
-        this.isMypageDietActive = true;
+        this.isMyPageDietActive = true;
       } else {
-        this.isMypageDietActive = false;
+        this.isMyPageDietActive = false;
       }
     },
-    checkIfMypageExerciseIsActive() {
+    checkIfMyPageExerciseIsActive() {
       const currentPath = this.$route.path;
-      const userId = localStorage.getItem('user_id');
+      const userId = localStorage.getItem('userId');
       if (currentPath.startsWith(`/myPageExercise/${userId}`)) {
-        this.isMypageExerciseActive = true;
+        this.isMyPageExerciseActive = true;
       } else {
-        this.isMypageExerciseActive = false;
+        this.isMyPageExerciseActive = false;
       }
     },
     checkIfCommunityIsActive() {
@@ -170,9 +170,9 @@ export default {
   watch: {
     '$route': function () {
       this.checkLoginStatus();
-      this.checkIfMypageBodyIsActive(); // 경로가 변경될 때마다 myPage 활성화 상태 점검
-      this.checkIfMypageDietIsActive();
-      this.checkIfMypageExerciseIsActive();
+      this.checkIfMyPageBodyIsActive(); // 경로가 변경될 때마다 myPage 활성화 상태 점검
+      this.checkIfMyPageDietIsActive();
+      this.checkIfMyPageExerciseIsActive();
       this.checkIfCommunityIsActive();
     }
   }
