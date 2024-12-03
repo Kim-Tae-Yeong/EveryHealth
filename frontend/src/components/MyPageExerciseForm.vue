@@ -21,9 +21,9 @@
         </VDatePicker>
       </div>
       <div class="Mylog">
-        <button @click="addExerciseLog" class="exercise-button">Add your Exercise</button>
+        <button @click="addExerciseData" class="exercise-button">Add your Exercise</button>
         <div class="exercise-logs">
-          <div v-for="(exercise, index) in exerciseLogs" :key="index" class="exercise-log">
+          <div v-for="(exercise, index) in exerciseData" :key="index" class="exercise-log">
             <div class="input-group">
               <label for="exerciseName" style="color: #426B1F;">Exercise name</label>
               <input
@@ -56,10 +56,10 @@
                 placeholder="무게 입력"
               />
             </div>
-            <button @click="deleteExerciseLog(index)" class="delete-button">Delete</button>
+            <button @click="deleteExerciseData(index)" class="delete-button">Delete</button>
           </div>
         </div>
-        <button v-if="exerciseLogs.length > 0" class="save-button" @click="saveInformation">Save</button>
+        <button v-if="exerciseData.length > 0" class="save-button" @click="saveInformation">Save</button>
       </div>
     </div>
   </div>
@@ -75,7 +75,7 @@ const selectedDate = ref(new Date());
 const calendar = ref(null);
 const router = useRouter();
 
-const exerciseLogs = ref([]);
+const exerciseData = ref([]);
 const userId = localStorage.getItem('userId');
 
 
@@ -83,8 +83,8 @@ const formatDate = (date) => {
   return date.toISOString().split('T')[0];
 };
 
-const addExerciseLog = () => {
-  exerciseLogs.value.push({
+const addExerciseData = () => {
+  exerciseData.value.push({
     exerciseName: '',
     setCount: '',
     count: '',
@@ -97,15 +97,23 @@ const addExerciseLog = () => {
 const handleDateSelect = (date) => {
   selectedDate.value = new Date(date.id);
   const formattedDate = formatDate(selectedDate.value);
-  const savedData = localStorage.getItem(`exerciseLogs-${formattedDate}`);
-
-  exerciseLogs.value = savedData ? JSON.parse(savedData) : [];
   navigateToDate(formattedDate);
 };
 
-const navigateToDate = (date) => {
+const navigateToDate = async (date) => {
   if (date) {
     router.push(`/myPageExercise/${userId}/${date}`);
+    try {
+        const accessToken = localStorage.getItem('accessToken');
+        const response = await axios.get(`/myPageExercise/${userId}/${date}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
+        exerciseData.value = response.data || [];
+    } catch (error) {
+        console.error(error);
+    }
   }
 };
 
@@ -121,14 +129,13 @@ const saveInformation = async () => {
   const formattedDate = formatDate(selectedDate.value);
   try {
     const accessToken = localStorage.getItem('accessToken');
-    const response = await axios.post(`/myPageExercise/${userId}/${formattedDate}`, exerciseLogs.value, {
+    const response = await axios.post(`/myPageExercise/${userId}/${formattedDate}`, exerciseData.value, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
     alert("저장되었습니다.");
     router.push(`/myPageExercise/${userId}/${formattedDate}`);
-    localStorage.setItem(`exerciseLogs-${formattedDate}`, JSON.stringify(exerciseLogs.value));
     console.log(response);
   } catch (error) {
     console.error(error);
@@ -137,12 +144,25 @@ const saveInformation = async () => {
 
 onMounted(() => {
   const formattedDate = formatDate(selectedDate.value);
-  const savedData = localStorage.getItem(`exerciseLogs-${formattedDate}`);
-  exerciseLogs.value = savedData ? JSON.parse(savedData) : [];
+  fetchExerciseData(formattedDate);
 });
 
-const deleteExerciseLog = (index) => {
-  exerciseLogs.value.splice(index, 1);
+const fetchExerciseData = async (formattedDate) => {
+    try {
+        const accessToken = localStorage.getItem('accessToken');
+        const response = await axios.get(`/myPageExercise/${userId}/${formattedDate}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
+        exerciseData.value = response.data || [];
+    } catch (error) {
+        console.error('Failed to fetch exercise data : ', error);
+    }
+}
+
+const deleteExerciseData = (index) => {
+  exerciseData.value.splice(index, 1);
 };
 </script>
 
