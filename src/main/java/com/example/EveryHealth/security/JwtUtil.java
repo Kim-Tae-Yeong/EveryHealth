@@ -23,12 +23,22 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(jwtConfig.getSecret().getBytes());
     }
 
-    // JWT 생성
-    public String generateToken(String email) {
+    // Access Token 생성
+    public String generateAccessToken(String email) {
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + jwtConfig.getExpiration()))
+                .setExpiration(new Date(System.currentTimeMillis() + jwtConfig.getAccessExpiration()))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    // Refresh Token 생성
+    public String generateRefreshToken(String email) {
+        return Jwts.builder()
+                .setSubject(email)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + jwtConfig.getRefreshExpiration()))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -52,8 +62,17 @@ public class JwtUtil {
         return extractClaims(token).getExpiration().before(new Date());
     }
 
-    // 토큰 검증
-    public boolean validateToken(String token, String email) {
+    // Access Token 검증
+    public boolean validateAccessToken(String token, String email) {
         return (email.equals(extractEmail(token)) && !isTokenExpired(token));
+    }
+
+    // Refresh Token 검즘
+    public boolean validateRefreshToken(String token, String email) {
+        try {
+            return !isTokenExpired(token);
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

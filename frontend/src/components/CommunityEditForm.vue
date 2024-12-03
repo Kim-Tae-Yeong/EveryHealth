@@ -51,7 +51,7 @@ export default {
                 alert("사진, 내용을 모두 입력해주세요.");
                 return;
             }
-            const token = localStorage.getItem('token');
+            const accessToken = localStorage.getItem('accessToken');
             const userId = localStorage.getItem('userId');
             const boardId = this.$route.params.boardId;
 
@@ -63,7 +63,7 @@ export default {
 
             this.$axios.post(`/community/${boardId}`, formData, {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${accessToken}`,
                 },
             })
             .then(() => {

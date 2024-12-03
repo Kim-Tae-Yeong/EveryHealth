@@ -16,7 +16,8 @@ public class WebConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")  // CORS를 허용할 API 경로
                         .allowedOrigins("http://localhost:8082")  // Vue 서버 주소
-                        .allowedMethods("GET", "POST", "PUT", "DELETE");  // 허용할 HTTP 메서드
+                        .allowedMethods("GET", "POST", "PUT", "DELETE")  // 허용할 HTTP 메서드
+                        .allowCredentials(true);
             }
 
             @Override

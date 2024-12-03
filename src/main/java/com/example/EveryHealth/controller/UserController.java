@@ -2,10 +2,13 @@ package com.example.EveryHealth.controller;
 
 import com.example.EveryHealth.dto.UserDTO;
 import com.example.EveryHealth.security.JwtUtil;
+import com.example.EveryHealth.service.TokenService;
 import com.example.EveryHealth.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +23,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final TokenService tokenService;
     private final JwtUtil jwtUtil;
 
     // 회원가입
@@ -44,12 +48,21 @@ public class UserController {
         // 로그인 성공하면 user 정보를, 실패하면 null을 가져옴
         UserDTO loginResult = userService.login(userDTO);
         if(loginResult != null) {
-            String token = jwtUtil.generateToken(loginResult.getEmail());
+            String accessToken = tokenService.generateAccessToken(loginResult.getEmail());
+            String refreshToken = tokenService.generateRefreshToken(loginResult.getEmail());
 
-            Map<String, Object> respone = new HashMap<>();
-            respone.put("token", "Bearer " + token);
-            respone.put("userId", loginResult.getUserId());
-            return ResponseEntity.ok().body(respone);
+            ResponseCookie refreshCookie = ResponseCookie.from("refreshToken", refreshToken)
+                    .httpOnly(true)
+                    .secure(true)
+                    .path("/")
+                    .maxAge(7 * 24 * 60 * 60)
+                    .sameSite("Strict")
+                    .build();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("accessToken", "Bearer " + accessToken);
+            response.put("userId", loginResult.getUserId());
+            return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, refreshCookie.toString()).body(response);
         } else {
             return ResponseEntity.status(401).body("로그인에 실패했습니다.");
         }

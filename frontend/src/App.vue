@@ -64,11 +64,15 @@ export default {
   },
   methods: {
     checkLoginStatus() {
-      const token = localStorage.getItem('token');
-      this.isLoggedIn = !!token;
+      const accessToken = localStorage.getItem('accessToken');
+      this.isLoggedIn = !!accessToken;
     },
     logout() {
-      localStorage.removeItem('token');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('bodyData');
+      localStorage.removeItem('dietData');
+      localStorage.removeItem('exerciseData');
       this.isLoggedIn = false;
       this.$router.push('/');
     },
@@ -80,40 +84,61 @@ export default {
       return `${year}-${month}-${day}`;
     },
     async navigateToMyPageBody() {
-      const link = this.myPageBodyLink;
-      const token = localStorage.getItem('token');
       this.isNavigating = true;
+      const link = this.myPageBodyLink;
+      const accessToken = localStorage.getItem('accessToken');
 
       // 페이지 전환이 완료될 때까지 기다리기 위해 then() 사용
       this.$router.push(link).then(async () => {
         try {
           const response = await this.$axios.get(link, {
-            headers: { Authorization: `Bearer ${token}` }
+            headers: { Authorization: `Bearer ${accessToken}` }
           });
           this.bodyData = response.data;
           localStorage.setItem('bodyData', JSON.stringify(response.data));
         } catch (error) {
-          console.error(error);
+            console.error(error);
+        } finally {
+          this.isNavigating = false;
+        }
+      });
+    },
+    async navigateToMyPageExercise() {
+      this.isNavigating = true;
+      const link = this.myPageExerciseLink;
+      const accessToken = localStorage.getItem('accessToken');
+
+      // 페이지 전환이 완료될 때까지 기다리기 위해 then() 사용
+      this.$router.push(link).then(async () => {
+        try {
+          const response = await this.$axios.get(link, {
+            headers: { Authorization: `Bearer ${accessToken}` }
+          });
+          this.exerciseData = response.data;
+          localStorage.setItem('exerciseData', JSON.stringify(response.data));
+        } catch (error) {
+            console.error(error);
         } finally {
           this.isNavigating = false;
         }
       });
     },
     async navigateToMyPageDiet() {
-      const link = this.myPageDietLink;
-      const token = localStorage.getItem('token');
       this.isNavigating = true;
+      const link = this.myPageDietLink;
+      const accessToken = localStorage.getItem('accessToken');
+
 
       // 페이지 전환이 완료될 때까지 기다리기 위해 then() 사용
       this.$router.push(link).then(async () => {
         try {
           const response = await this.$axios.get(link, {
-            headers: { Authorization: `Bearer ${token}` }
+            headers: { Authorization: `Bearer ${accessToken}` }
           });
           this.dietData = response.data;
           localStorage.setItem('dietData', JSON.stringify(response.data));
         } catch (error) {
-          console.error(error);
+            console.error(error);
         } finally {
           this.isNavigating = false;
         }
@@ -129,6 +154,7 @@ export default {
     },
     handleMyPageExerciseClick() {
       this.isNavigating = true;
+      this.navigateToMyPageExercise();
     },
     // myPage가 활성화된 상태인지 확인
     checkIfMyPageBodyIsActive() {

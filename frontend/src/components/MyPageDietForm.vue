@@ -79,9 +79,10 @@ const dietData = ref({
 // 서버에서 데이터를 가져오는 함수
 const fetchBodyData = async (formattedDate) => {
   try {
+    const accessToken = localStorage.getItem('accessToken');
     const response = await axios.get(`/myPageDiet/${userId}/${formattedDate}`, {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${accessToken}`
       }
     });
     dietData.value = response.data || { breakfast: '', lunch: '', dinner: ''};
@@ -102,16 +103,16 @@ if (savedDietData) {
 }
 
 const userId = localStorage.getItem('userId');
-const token = localStorage.getItem('token');
 
 const navigateToDate = async (date) => {
   const formattedDate = date.id; // 'id' 속성에서 날짜 추출
   router.push(`/myPageDiet/${userId}/${formattedDate}`);
   if (formattedDate) {
     try {
+      const accessToken = localStorage.getItem('accessToken');
       const response = await axios.get(`/myPageDiet/${userId}/${formattedDate}`, {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${accessToken}`
         }
       });
       // 받아온 데이터로 dietData 업데이트, 없으면 빈 값으로 초기화
@@ -147,9 +148,10 @@ const saveInformation = async () => {
   };
 
   try {
+    const accessToken = localStorage.getItem('accessToken');
     const response = await axios.post(`/myPageDiet/${userId}/${formattedDate}`, requestData, {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${accessToken}`
       }
     });
     alert("저장되었습니다.");

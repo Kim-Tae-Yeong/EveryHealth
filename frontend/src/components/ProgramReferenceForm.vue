@@ -25,7 +25,7 @@
 <script>
 import axios from 'axios';
 
-const token = localStorage.getItem('token');
+
 
 export default {
     data() {
@@ -38,9 +38,10 @@ export default {
     },
     methods: {
         fetchExerciseLists() {
+            const accessToken = localStorage.getItem('accessToken');
             axios.get('exerciseLists', {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${accessToken}`,
                 }
             })
             .then(response => {

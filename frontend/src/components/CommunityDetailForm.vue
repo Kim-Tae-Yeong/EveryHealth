@@ -18,8 +18,6 @@
 <script>
 import axios from 'axios';
 
-const token = localStorage.getItem('token');
-
 export default {
     data() {
         return {
@@ -37,9 +35,10 @@ export default {
     methods: {
         fetchDetail() {
             const boardId = this.$route.params.boardId;
+            const accessToken = localStorage.getItem('accessToken');
             axios.get(`/community/${boardId}`, {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${accessToken}`,
                 }
             })
                 .then(response => {
@@ -56,9 +55,10 @@ export default {
         },
         navigateToDelete() {
             const boardId = this.$route.params.boardId;
+            const accessToken = localStorage.getItem('accessToken');
             axios.delete(`/community/${boardId}`, {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${accessToken}`,
                 }
             })
             .then(() => {

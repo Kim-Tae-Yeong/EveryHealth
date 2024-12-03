@@ -23,4 +23,5 @@ spring:
 
 jwt:
   secret: c29vbmdzaWxfaGVhbHRoX2Fzc29jaWF0aW9u
-  expiration: 7200000 # 2시간
+  accessExpiration: 600000 # 1시간
+  refreshExpiration: 604800000 # 7일

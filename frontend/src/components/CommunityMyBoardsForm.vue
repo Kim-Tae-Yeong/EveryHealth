@@ -17,7 +17,7 @@
 <script>
 import axios from 'axios';
 
-const token = localStorage.getItem('token');
+
 
 export default {
     data() {
@@ -35,9 +35,10 @@ export default {
                 alert('로그인이 필요합니다.');
                 return;
             }
+            const accessToken = localStorage.getItem('accessToken');
             axios.get('/community/myBoards', {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${accessToken}`,
                 },
                 params: {
                     userId: userId,

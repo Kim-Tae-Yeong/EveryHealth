@@ -18,7 +18,7 @@
 <script>
 import axios from 'axios';
 
-const token = localStorage.getItem('token');
+
 
 export default {
     data() {
@@ -31,9 +31,10 @@ export default {
     },
     methods: {
         fetchImages() {
+            const accessToken = localStorage.getItem('accessToken');
             axios.get('/community', {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${accessToken}`,
                 }
             })
             .then(response => {

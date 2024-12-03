@@ -38,15 +38,16 @@ export default {
         });
 
         const responseData = response.data;
-        let token = responseData.token || responseData;
+        let accessToken = responseData.accessToken || responseData;
         const userId = responseData.userId;
 
-        if (token && token.startsWith("Bearer ")) {
-            token = token.replace('Bearer ', '');
+        if (accessToken && accessToken.startsWith("Bearer ")) {
+            accessToken = accessToken.replace('Bearer ', '');
         }
-        if (token) {
-          // token을 localStorage에 저장
-          localStorage.setItem("token", token);
+
+        if (accessToken) {
+          // accessToken을 localStorage에 저장
+          localStorage.setItem("accessToken", accessToken);
           localStorage.setItem("userId", userId);
 
           // 로그인 성공 후 홈 페이지로 리다이렉트

@@ -101,9 +101,10 @@ const bodyData = ref({
 // 서버에서 데이터를 가져오는 함수
 const fetchBodyData = async (formattedDate) => {
   try {
+    const accessToken = localStorage.getItem('accessToken');
     const response = await axios.get(`/myPageBody/${userId}/${formattedDate}`, {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${accessToken}`
       }
     });
     bodyData.value = response.data || { height: '', weight: '', bmi: '', smm: '', pbf: '' };
@@ -124,7 +125,6 @@ if (savedBodyData) {
 }
 
 const userId = localStorage.getItem('userId');
-const token = localStorage.getItem('token');
 
 // 숫자와 소수점만 입력되도록 필터링하는 메소드
 const validateNumberInput = (event) => {
@@ -151,9 +151,10 @@ const navigateToDate = async (date) => {
   router.push(`/myPageBody/${userId}/${formattedDate}`);
   if (formattedDate) {
     try {
+      const accessToken = localStorage.getItem('accessToken');
       const response = await axios.get(`/myPageBody/${userId}/${formattedDate}`, {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${accessToken}`
         }
       });
       // 받아온 데이터로 bodyData 업데이트, 없으면 빈 값으로 초기화
@@ -189,9 +190,10 @@ const saveInformation = async () => {
   };
 
   try {
+    const accessToken = localStorage.getItem('accessToken');
     const response = await axios.post(`/myPageBody/${userId}/${formattedDate}`, requestData, {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${accessToken}`
       }
     });
     alert("저장되었습니다.");

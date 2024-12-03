@@ -27,6 +27,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/users/**").permitAll()  // 특정 경로 허용
                         .requestMatchers("/img/**").permitAll()
+                        .requestMatchers("/token/**").permitAll()
                         .anyRequest().authenticated()            // 나머지 경로 인증 필요
                 )
                 .cors(cors -> cors.configurationSource(request -> {

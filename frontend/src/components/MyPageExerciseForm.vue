@@ -77,7 +77,7 @@ const router = useRouter();
 
 const exerciseLogs = ref([]);
 const userId = localStorage.getItem('userId');
-const token = localStorage.getItem('token');
+
 
 const formatDate = (date) => {
   return date.toISOString().split('T')[0];
@@ -120,9 +120,10 @@ const moveToday = () => {
 const saveInformation = async () => {
   const formattedDate = formatDate(selectedDate.value);
   try {
+    const accessToken = localStorage.getItem('accessToken');
     const response = await axios.post(`/myPageExercise/${userId}/${formattedDate}`, exerciseLogs.value, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     });
     alert("저장되었습니다.");

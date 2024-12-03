@@ -30,7 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 토큰 추출
         String token = extractToken(request);
 
-        if (token != null && jwtUtil.validateToken(token, extractEmail(token))) {
+        if (token != null && jwtUtil.validateAccessToken(token, extractEmail(token))) {
             // 토큰이 유효하다면 UsernamePasswordAuthenticationToken 생성
             Authentication authentication = new UsernamePasswordAuthenticationToken(
                     extractEmail(token), null, null);
